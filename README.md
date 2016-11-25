@@ -1,10 +1,8 @@
-# repository.robloach
+# repository.camalot
 
-[Kodi](http://kodi.tv) Addons Repository for Kodi Addons by [RobLoach](http://github.com/robloach). The repository itself built with [kodi-create-repo](https://github.com/virajkanwade/kodi-create-repo), by [Viraj Kanwade](https://github.com/virajkanwade).
+[Kodi](http://kodi.tv) Addons Repository for Kodi Addons by [camalot](http://github.com/camalot).
 
-## Addons
-
-- [script.lutris](https://github.com/RobLoach/script.lutris)
+Cloned from [RobLoach's](http://github.com/robloach) [repository.robloach ](https://github.com/RobLoach/repository.robloach). The repository itself built with [kodi-create-repo](https://github.com/virajkanwade/kodi-create-repo), by [Viraj Kanwade](https://github.com/virajkanwade).
 
 ## Build
 
@@ -34,10 +32,10 @@ Helper script to put together a Kodi repo for your plugins
 - Uses tags for version number
 
 **THANKS:**
-- Special thanks to SimpleKodi (https://www.youtube.com/watch?v=zm1pvAt5uvU)
+- Special thanks to [Simple Core](https://www.youtube.com/channel/UCgC_gjO6044hDD6RRm5o7Iw)  
+[![](http://img.youtube.com/vi/zm1pvAt5uvU/mqdefault.jpg)](https://www.youtube.com/watch?v=zm1pvAt5uvU)
 
 **TODO:**
 - Handle addon update
 - Handle separate kodi version for addons and repo structure
 - FTP upload
-- Github pages upload

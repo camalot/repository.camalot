@@ -2,7 +2,7 @@
     "repository": {
         "id": "repository.camalot",
         "name": "camalot's Addons",
-        "version": "0.1",
+        "version": "1.0",
         "provider-name": "camalot",
         "summary": "camalot's Kodi Addons.",
         "description": "Kodi Addons provided by Ryan Conrad (camalot)",
@@ -13,6 +13,19 @@
         {
             "name": "plugin.image.kodur",
             "github_url": "https://github.com/camalot/kodur.git"
+        },
+        {
+            "name": "plugin.image.kochandi",
+            "github_url": "https://github.com/camalot/kochandi.git"
+        },
+        {
+            "name": "plugin.video.microsoft.channel9",
+            "github_url": "https://github.com/camalot/plugin.video.microsoft.channel9.git"
+        },
+        {
+            "name": "plugin.video.microsoftvirtualacademy",
+            "github_url": "https://github.com/camalot/plugin.video.microsoftvirtualacademy.git"
         }
+
     ]
 }
