@@ -1,0 +1,18 @@
+{
+    "repository": {
+        "id": "repository.camalot",
+        "name": "camalot's Addons",
+        "version": "0.1",
+        "provider-name": "camalot",
+        "summary": "camalot's Kodi Addons.",
+        "description": "Kodi Addons provided by Ryan Conrad (camalot)",
+        "icon": "icon.png"
+    },
+    "host_url": "http://camalot.github.io/repository.camalot",
+    "plugins": [
+        {
+            "name": "plugin.image.kodur",
+            "github_url": "https://github.com/camalot/kodur.git"
+        }
+    ]
+}
