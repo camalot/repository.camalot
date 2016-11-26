@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes'?>
+<addon id="repository.camalot" name="camalot's repository" version="1.0.0" provider-name="Ryan Conrad">
+  <requires>
+    <import addon="xbmc.addon" version="12.0.0"/>
+  </requires>
+  <extension point="xbmc.addon.repository" name="camalot's repository">
+    <info compressed="true">http://camalot.github.io/repository.camalot/addons.xml</info>
+    <checksum>http://camalot.github.io/repository.camalot/addons.xml.md5</checksum>
+    <datadir zip="true">http://camalot.github.io/repository.camalot/</datadir>
+    <hashes>true</hashes>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary>camalot's Kodi repository.</summary>
+    <description>Kodi repository provided by Ryan Conrad (camalot)</description>
+    <platform>all</platform>
+  </extension>
+</addon>

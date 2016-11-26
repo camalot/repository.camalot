@@ -1,0 +1,4 @@
+GitPython==1.0.1
+lxml==3.5.0
+click==6.2
+requests==2.12.1
