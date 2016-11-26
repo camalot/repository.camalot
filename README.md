@@ -37,8 +37,6 @@ Steps that CI takes is a bit different.
 
 - `.appveyor/appveyor.install.ps1`
   - installs the software needed to build. 
-  - **DO NOT** run locally, it sets git credentials, it will set them blank because the 
-  environment variables are not defined.
 - `.appveyor/appveyor.before-build.ps1`
   - preps things before building
 - `.build/build.msbuild`
@@ -66,8 +64,10 @@ variables:
 - `$ENV:CI_DEPLOY_GITHUB=$true`  
 - `$ENV:APPVEYOR_BUILD_FOLDER="."` 
   - This is the working directory, which should be the root of the project.
-       
-Then run `.appveyor/appveyor.on-success.ps1` from the root of the project
+  
+_NOTE: You need to have your github credentials stored for git._   
+    
+Then run `.appveyor/appveyor.on-success.ps1` from the root of the project.
 
 ```
 PS> $ENV:CI_DEPLOY_GITHUB=$true;
@@ -81,3 +81,23 @@ PS> ./.appveyor/appveyor.on-success.ps1
 Configuration of what addons are included is set in `.repository.json`.
 
 - `host_url`: The url of the repository
+- `plugins`: 
+    - `name`: The plugin id
+    - `github_url`: This is the clone url for the addon repository
+    - `tag_exclude_pattern`: An array of _glob_ style pattern for tags to exclude. Ex: `["*-prerelease"]`
+    - `tag_include_pattern`: An array of _glob_ style pattern for tags to include. Default: `["*"]`
+    
+
+
+### Tag & Release Pattern
+
+`[addon.id-][v]<version>`  
+The tag/release name can contain the `addon.id`, if it does, it *MUST* have a `-` after it.
+Before the `version` you can have an optional `v`. 
+
+Addon packages will be pulled from _Github Releases_ if it can, otherwise, it will use the source and package it up 
+as the addon package.
+ 
+To use _Github Releases_, the release name should follow the same pattern as the tags, and the zip file should be
+name `<addon.id>-<version>.zip`
+
