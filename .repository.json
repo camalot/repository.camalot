@@ -1,4 +1,8 @@
 {
+    "repository": {
+      "id": "repository.camalot",
+      "url": "https://github.com/camalot/repository.camalot"
+    },
     "plugins": [
         {
             "name": "repository.camalot",
