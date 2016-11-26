@@ -2,7 +2,7 @@ version: 1.0.{build}
 pull_requests:
   do_not_increment_build_number: true
 skip_tags: true
-skip_branch_with_pr: true
+skip_branch_with_pr: false
 environment:
   GITHUB_EMAIL:
     secure: ZLfpxUrw1AeB4Hzmg9poFh3ehcghbjDXbGa1zdUAmb0=
