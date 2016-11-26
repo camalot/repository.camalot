@@ -20,14 +20,7 @@ build_repo_dir = os.path.join(build_dir)
 build_temp_dir = os.path.join(build_dir, temp_dir)
 
 config = json.load(open('.repository.json'))
-host_url = config['host_url']
 plugins_info = config['plugins']
-repo_info = config['repository']
-
-repo_name_with_version = '%s-%s' % (repo_info['id'], repo_info['version'])
-repo_name = repo_info['id']
-build_repo_final_dir = os.path.join(build_repo_dir, repo_info['id'])
-build_repo_final_zip = os.path.join(build_repo_dir, repo_info['id'], repo_name_with_version)
 
 
 def init():
@@ -39,7 +32,6 @@ def init():
 
 	os.mkdir(build_dir)
 	os.mkdir(build_temp_dir)
-	os.mkdir(build_repo_final_dir)
 
 
 def build_plugins():

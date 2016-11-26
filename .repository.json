@@ -1,6 +1,10 @@
 {
-    "host_url": "https://camalot.github.io/repository.camalot",
     "plugins": [
+        {
+            "name": "repository.camalot",
+            "github_url": "https://github.com/camalot/repository.camalot.git",
+            "tag_exclude_pattern": ["*-prerelease"]
+        },
         {
             "name": "plugin.image.kodur",
             "github_url": "https://github.com/camalot/kodur.git",
