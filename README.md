@@ -1,12 +1,20 @@
 # repository.camalot
 
+[![Build status](https://ci.appveyor.com/api/projects/status/t4kv4mox5koymqq2?svg=true)](https://ci.appveyor.com/project/camalot/repository-camalot)
+
 [Kodi](http://kodi.tv) Addons Repository for Kodi Addons by [camalot](http://github.com/camalot).
 
-Cloned from [RobLoach's](http://github.com/robloach) [repository.robloach ](https://github.com/RobLoach/repository.robloach). The repository itself built with [kodi-create-repo](https://github.com/virajkanwade/kodi-create-repo), by [Viraj Kanwade](https://github.com/virajkanwade).
+
+----
+- [Add Repository to Kodi](#add-repository-to-kodi)
+- [Request your addon to be added](#request-your-addon-to-be-added)
+- [Build](#build)
+- [Configuration](#configuration)
+- [Tag and Release Pattern](#tag-and-release-pattern)
 
 ----
 
-## Add Repository to Kodi
+# Add Repository to Kodi
 
 - Navigate to `System -> File Manager`
 - Open file browser and click on `Add Source`
@@ -26,9 +34,17 @@ Cloned from [RobLoach's](http://github.com/robloach) [repository.robloach ](http
 - Click on `Install from repository`
 - Select `camalot's Addons` and browse the addons
 
+----
+
+# Request your addon to be added
+
+ - Fork this repository
+ - Create a new branch `request/<my-addon-id>` (where `<my-addon-id>` is the id of your addon).
+ - Create a _Pull Request_ to the `develop` branch of this repo.
 
 ----
-## Build
+
+# Build
 
 Build is typically handled by CI (Appveyor). The scripts to just 'package' the repository addon is 
 `.build/build.msbuild`.
@@ -76,7 +92,7 @@ PS> ./.appveyor/appveyor.on-success.ps1
 ```
 
 ----
-## Configuration
+# Configuration
 
 Configuration of what addons are included is set in `.repository.json`.
 
@@ -89,7 +105,7 @@ Configuration of what addons are included is set in `.repository.json`.
     
 
 
-### Tag & Release Pattern
+# Tag and Release Pattern
 
 `[addon.id-][v]<version>`  
 The tag/release name can contain the `addon.id`, if it does, it *MUST* have a `-` after it.
@@ -100,4 +116,14 @@ as the addon package.
  
 To use _Github Releases_, the release name should follow the same pattern as the tags, and the zip file should be
 name `<addon.id>-<version>.zip`
+
+---- 
+
+### Notes
+ 
+Originally cloned from [RobLoach's](http://github.com/robloach) 
+[repository.robloach ](https://github.com/RobLoach/repository.robloach). 
+
+The original `create_repository.py` script is based off [kodi-create-repo](https://github.com/virajkanwade/kodi-create-repo)
+by [Viraj Kanwade](https://github.com/virajkanwade).
 
