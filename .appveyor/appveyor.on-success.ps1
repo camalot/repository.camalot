@@ -48,7 +48,7 @@ function Set-GitCredentials {
     param()
     begin{}
     process {
-        if ($ENV:GITHUB_ACCESS_TOKEN -ne '' -and $ENV:GITHUB_EMAIL -ne '' -and $ENV:GITHUB_USERNAME -ne '') {
+        if ($ENV:GITHUB_ACCESS_TOKEN -ne '' -and $ENV:GITHUB_EMAIL -ne '' -and $ENV:GITHUB_USERNAME -ne '' -and $ENV:CI -eq $true) {
             & git config --global credential.helper store
             & git config --global user.email "$($ENV:GITHUB_EMAIL)"
             & git config --global user.name "$($ENV:GITHUB_USERNAME)"
@@ -58,10 +58,9 @@ function Set-GitCredentials {
 }
 
 
-if ( $ENV:APPVEYOR_REPO_BRANCH -eq "master" ) {
+if ( $env:CI_DEPLOY_GITHUB -eq $true ) {
   Initialize-KodiRepository;
-
   Push-GHPages -Path "$ENV:APPVEYOR_BUILD_FOLDER\build\"
 } else {
-  "Not Pushing GH-PAGES because ENV:APPVEYOR_REPO_BRANCH is '$ENV:APPVEYOR_REPO_BRANCH'." | Write-Warning;
+  "Not Pushing GH-PAGES because ENV:CI_DEPLOY_GITHUB is '$ENV:CI_DEPLOY_GITHUB'." | Write-Warning;
 }
