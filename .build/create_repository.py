@@ -21,7 +21,8 @@ build_temp_dir = os.path.join(build_dir, temp_dir)
 
 config = json.load(open('.repository.json'))
 plugins_info = config['plugins']
-
+repository = config['repository']
+repo_name = repository['id']
 
 def init():
 	if not os.path.isdir(plugins_dir):
@@ -39,6 +40,7 @@ def build_plugins():
 
 	for plugin_info in plugins_info:
 		name = plugin_info['name']
+		print name
 		github_url = plugin_info['github_url']
 
 		if github_url.endswith('.git'):
@@ -61,6 +63,7 @@ def build_plugins():
 
 		tag_list = []
 		for t in repo.tags:
+			print t.name
 			tag_list.append(t.name)
 		tag_list.sort(reverse=True)
 
@@ -168,7 +171,7 @@ def build_plugins():
 				shutil.move(build_repo_path, os.path.join(build_plugins_dir, name))
 
 	# remove temp path
-	shutil.rmtree(temp_extract_path)
+	shutil.rmtree(build_temp_dir)
 
 	xml_str = etree.tostring(addons_xml_root, pretty_print=True)
 	addon_xml_file = os.path.join(build_plugins_dir, 'addons.xml')
@@ -270,64 +273,75 @@ def _cleanup_path(path):
 def build_gh_pages(root, current_dir):
 	cur_dir = os.path.join(root, current_dir)
 
-	html_root = etree.Element('html')
-	etree.SubElement(html_root, 'head')
-	body = etree.SubElement(html_root, 'body')
-
 	pth = os.path.relpath(cur_dir, root)
 	if pth == '.':
 		pth = ''
 
 	index_path = os.path.join('/', pth)
 
-	etree.SubElement(body, 'h1').text = 'Index of %s' % index_path
-	etree.SubElement(body, 'hr')
-
-	table = etree.SubElement(body, 'table', style='width: 50%; min-width: 800px;')
-
-	tr = etree.SubElement(table, 'tr')
-	td = etree.SubElement(tr, 'td')
+	html = "<html><head><title>Index of %s</title></head><body bgcolor=\"white\"><h1>Index of %s</h1><hr><pre>" % (index_path, index_path)
 	item = '.' if index_path == '/' else '../'
-	etree.SubElement(td, 'a', href=item, style='width: 70%;').text = '../'
-	etree.SubElement(tr, 'td')
-	etree.SubElement(tr, 'td')
-
+	html += "<a href=\"%s\">%s</a>\n" % (item, "../")
 	dir_items = os.listdir(cur_dir)
 	for item in dir_items:
 		item_path = os.path.join(cur_dir, item)
 		if os.path.isdir(item_path):
-			tr = etree.SubElement(table, 'tr')
-			td = etree.SubElement(tr, 'td')
-			etree.SubElement(td, 'a', href=item).text = '%s/' % item
-			etree.SubElement(tr, 'td').text = datetime.datetime.fromtimestamp(os.path.getmtime(item_path)).strftime(
-				'%d-%b-%Y %H:%M')
-			etree.SubElement(tr, 'td').text = '-'
+			html += "<a href=\"%s\">%s/</a>\n" % (item, item)
 
 			build_gh_pages(root, os.path.join(current_dir, item))
 		else:
-			tr = etree.SubElement(table, 'tr')
-			td = etree.SubElement(tr, 'td')
-			etree.SubElement(td, 'a', href=item).text = item
-			etree.SubElement(tr, 'td').text = datetime.datetime.fromtimestamp(os.path.getmtime(item_path)).strftime(
-				'%d-%b-%Y %H:%M')
-			etree.SubElement(tr, 'td').text = str(os.path.getsize(item_path))
+			html += "<a href=\"%s\">%s</a>\n" % (item, item)
+	html += "</pre><hr></body></html>"
 
-	etree.SubElement(body, 'hr')
-
-	html_str = etree.tostring(html_root, pretty_print=True)
 	f = open(os.path.join(cur_dir, 'index.html'), 'w')
-	f.write(html_str)
+	f.write(html)
 	f.close()
+
+	# html_root = etree.Element('html')
+	# etree.SubElement(html_root, 'head')
+	# body = etree.SubElement(html_root, 'body')
+	# etree.SubElement(body, 'h1').text = 'Index of %s' % index_path
+	# etree.SubElement(body, 'hr')
+	#
+	# pre = etree.SubElement(body, 'pre')
+	#
+	# item = '.' if index_path == '/' else '../'
+	# etree.SubElement(pre, 'a', href=item, style='width: 70%;').text = '../'
+	#
+	# dir_items = os.listdir(cur_dir)
+	# for item in dir_items:
+	# 	item_path = os.path.join(cur_dir, item)
+	# 	if os.path.isdir(item_path):
+	# 		etree.SubElement(pre, 'a', href=item).text = '%s/' % item
+	# 		etree.SubElement(pre, 'td').text = datetime.datetime.fromtimestamp(os.path.getmtime(item_path)).strftime(
+	# 			'%d-%b-%Y %H:%M')
+	# 		etree.SubElement(tr, 'td').text = '-'
+	#
+	# 		build_gh_pages(root, os.path.join(current_dir, item))
+	# 	else:
+	# 		tr = etree.SubElement(table, 'tr')
+	# 		td = etree.SubElement(tr, 'td')
+	# 		etree.SubElement(td, 'a', href=item).text = item
+	# 		etree.SubElement(tr, 'td').text = datetime.datetime.fromtimestamp(os.path.getmtime(item_path)).strftime(
+	# 			'%d-%b-%Y %H:%M')
+	# 		etree.SubElement(tr, 'td').text = str(os.path.getsize(item_path))
+	#
+	# etree.SubElement(body, 'hr')
+	#
+	# html_str = etree.tostring(html_root, pretty_print=True)
+	# f = open(os.path.join(cur_dir, 'index.html'), 'w')
+	# f.write(html_str)
+	# f.close()
 
 
 @click.command()
-@click.option('--gh-pages', is_flag=True)
-def run(gh_pages):
+# @click.option('--gh-pages', is_flag=True)
+# def run(gh_pages):
+def run():
 	init()
 	build_plugins()
-	# build_repo()
-	if gh_pages:
-		build_gh_pages(os.path.abspath(build_dir), '')
+	# if gh_pages:
+	build_gh_pages(os.path.abspath(build_dir), '')
 
 
 if __name__ == "__main__":

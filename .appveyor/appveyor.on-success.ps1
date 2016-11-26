@@ -58,8 +58,10 @@ function Set-GitCredentials {
 }
 
 
-if ( $ENV:CI_DEPLOY_GITHUB ) {
+if ( $ENV:APPVEYOR_REPO_BRANCH -eq "master" ) {
   Initialize-KodiRepository;
 
   Push-GHPages -Path "$ENV:APPVEYOR_BUILD_FOLDER\build\"
+} else {
+  "Not Pushing GH-PAGES because ENV:APPVEYOR_REPO_BRANCH is '$ENV:APPVEYOR_REPO_BRANCH'."
 }

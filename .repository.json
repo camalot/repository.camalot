@@ -1,4 +1,7 @@
 {
+    "repository": {
+      "id": "repository.camalot"
+    },
     "plugins": [
         {
             "name": "repository.camalot",
