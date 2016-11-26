@@ -12,20 +12,23 @@
     "plugins": [
         {
             "name": "plugin.image.kodur",
-            "github_url": "https://github.com/camalot/kodur.git"
+            "github_url": "https://github.com/camalot/kodur.git",
+            "tag_exclude_pattern": ["*-prerelease"]
         },
         {
             "name": "plugin.image.kochandi",
-            "github_url": "https://github.com/camalot/kochandi.git"
+            "github_url": "https://github.com/camalot/kochandi.git",
+            "tag_exclude_pattern": ["*-prerelease"]
         },
         {
             "name": "plugin.video.microsoft.channel9",
-            "github_url": "https://github.com/camalot/plugin.video.microsoft.channel9.git"
+            "github_url": "https://github.com/camalot/plugin.video.microsoft.channel9.git",
+            "tag_exclude_pattern": ["*-prerelease"]
         },
         {
             "name": "plugin.video.microsoftvirtualacademy",
-            "github_url": "https://github.com/camalot/plugin.video.microsoftvirtualacademy.git"
+            "github_url": "https://github.com/camalot/plugin.video.microsoftvirtualacademy.git",
+            "tag_exclude_pattern": ["*-prerelease"]
         }
-
     ]
 }
