@@ -15,8 +15,7 @@ import zipfile
 plugins_dir = 'addons'
 build_dir = 'build'
 temp_dir = 'temp'
-build_plugins_dir = os.path.join(build_dir)
-build_repo_dir = os.path.join(build_dir)
+build_plugins_dir = os.path.join(build_dir, plugins_dir)
 build_temp_dir = os.path.join(build_dir, temp_dir)
 
 config = json.load(open('.repository.json'))
@@ -63,7 +62,6 @@ def build_plugins():
 
 		tag_list = []
 		for t in repo.tags:
-			print t.name
 			tag_list.append(t.name)
 		tag_list.sort(reverse=True)
 
@@ -196,8 +194,6 @@ def _download_file(url, dest):
 		local_filename = os.path.join(dest, url.split('/')[-1])
 	else:
 		local_filename = dest
-
-	print "downloading %s to %s" % (url, local_filename)
 	req = requests.get(url, stream=True)
 	with open(local_filename, 'wb') as f:
 		for chunk in req.iter_content(chunk_size=1024):
@@ -279,62 +275,73 @@ def build_gh_pages(root, current_dir):
 
 	index_path = os.path.join('/', pth)
 
-	html = "<html><body><h1>Directory listing</h1><hr/><pre>"
-	item = '../' # if index_path == '/' else '../'
-	html += "<a href=\"%s\">%s</a>\n" % (item, "../")
-	html += "<a href=\"%s\">%s</a>\n" % ("repository.camalot/", "repository/")
-	html += "<a href=\"%s\">%s</a>\n" % ("addons/", "addons/")
-
-	dir_items = os.listdir(cur_dir)
-	for item in dir_items:
-		item_path = os.path.join(cur_dir, item)
-		if os.path.isdir(item_path):
-			html += "<a href=\"%s\">%s/</a>\n" % (item, item)
-
-			build_gh_pages(root, os.path.join(current_dir, item))
-		else:
-			html += "<a href=\"%s\">%s</a>\n" % (item, item)
-	html += "</pre></body></html>"
-
-	f = open(os.path.join(cur_dir, 'index.html'), 'w')
-	f.write(html)
-	f.close()
-
-	# html_root = etree.Element('html')
-	# etree.SubElement(html_root, 'head')
-	# body = etree.SubElement(html_root, 'body')
-	# etree.SubElement(body, 'h1').text = 'Index of %s' % index_path
-	# etree.SubElement(body, 'hr')
-	#
-	# pre = etree.SubElement(body, 'pre')
-	#
-	# item = '.' if index_path == '/' else '../'
-	# etree.SubElement(pre, 'a', href=item, style='width: 70%;').text = '../'
+	# html = "<html><body><h1>Directory listing</h1><hr/><pre>"
+	# item = '../' # if index_path == '/' else '../'
+	# html += "<a href=\"%s\">%s</a>\n" % (item, "../")
 	#
 	# dir_items = os.listdir(cur_dir)
 	# for item in dir_items:
 	# 	item_path = os.path.join(cur_dir, item)
 	# 	if os.path.isdir(item_path):
-	# 		etree.SubElement(pre, 'a', href=item).text = '%s/' % item
-	# 		etree.SubElement(pre, 'td').text = datetime.datetime.fromtimestamp(os.path.getmtime(item_path)).strftime(
-	# 			'%d-%b-%Y %H:%M')
-	# 		etree.SubElement(tr, 'td').text = '-'
+	# 		html += "<a href=\"%s\">%s/</a>\n" % (item, item)
 	#
 	# 		build_gh_pages(root, os.path.join(current_dir, item))
 	# 	else:
-	# 		tr = etree.SubElement(table, 'tr')
-	# 		td = etree.SubElement(tr, 'td')
-	# 		etree.SubElement(td, 'a', href=item).text = item
-	# 		etree.SubElement(tr, 'td').text = datetime.datetime.fromtimestamp(os.path.getmtime(item_path)).strftime(
-	# 			'%d-%b-%Y %H:%M')
-	# 		etree.SubElement(tr, 'td').text = str(os.path.getsize(item_path))
+	# 		html += "<a href=\"%s\">%s</a>\n" % (item, item)
+	# html += "</pre></body></html>"
 	#
-	# etree.SubElement(body, 'hr')
-	#
-	# html_str = etree.tostring(html_root, pretty_print=True)
 	# f = open(os.path.join(cur_dir, 'index.html'), 'w')
-	# f.write(html_str)
+	# f.write(html)
 	# f.close()
+
+	html_root = etree.Element('html')
+	etree.SubElement(html_root, 'head')
+	body = etree.SubElement(html_root, 'body')
+
+	pth = os.path.relpath(cur_dir, root)
+	if pth == '.':
+		pth = ''
+
+	index_path = os.path.join('/', pth)
+
+	etree.SubElement(body, 'h1').text = 'Index of %s' % index_path
+	etree.SubElement(body, 'hr')
+
+	table = etree.SubElement(body, 'table', style='width: 50%; min-width: 800px;')
+
+	tr = etree.SubElement(table, 'tr')
+	td = etree.SubElement(tr, 'td')
+	item = '.' if index_path == '/' else '../'
+	etree.SubElement(td, 'a', href=item, style='width: 70%;').text = '../'
+	etree.SubElement(tr, 'td')
+	etree.SubElement(tr, 'td')
+
+	dir_items = os.listdir(cur_dir)
+	for item in dir_items:
+		item_path = os.path.join(cur_dir, item)
+		if os.path.isdir(item_path):
+			tr = etree.SubElement(table, 'tr')
+			td = etree.SubElement(tr, 'td')
+			etree.SubElement(td, 'a', href=item).text = '%s/' % item
+			etree.SubElement(tr, 'td').text = datetime.datetime.fromtimestamp(os.path.getmtime(item_path)).strftime(
+				'%d-%b-%Y %H:%M')
+			etree.SubElement(tr, 'td').text = '-'
+
+			build_gh_pages(root, os.path.join(current_dir, item))
+		else:
+			tr = etree.SubElement(table, 'tr')
+			td = etree.SubElement(tr, 'td')
+			etree.SubElement(td, 'a', href=item).text = item
+			etree.SubElement(tr, 'td').text = datetime.datetime.fromtimestamp(os.path.getmtime(item_path)).strftime(
+				'%d-%b-%Y %H:%M')
+			etree.SubElement(tr, 'td').text = str(os.path.getsize(item_path))
+
+	etree.SubElement(body, 'hr')
+
+	html_str = etree.tostring(html_root, pretty_print=True)
+	f = open(os.path.join(cur_dir, 'index.html'), 'w')
+	f.write(html_str)
+	f.close()
 
 
 @click.command()
