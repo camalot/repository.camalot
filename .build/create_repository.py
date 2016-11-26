@@ -279,7 +279,7 @@ def build_gh_pages(root, current_dir):
 
 	index_path = os.path.join('/', pth)
 
-	html = "<html><body><h1>Directory listing</h1><hr/><pre>" % (index_path, index_path)
+	html = "<html><body><h1>Directory listing</h1><hr/><pre>"
 	item = '.' if index_path == '/' else '../'
 	html += "<a href=\"%s\">%s</a>\n" % (item, "../")
 	dir_items = os.listdir(cur_dir)
