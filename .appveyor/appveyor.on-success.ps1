@@ -63,5 +63,5 @@ if ( $ENV:APPVEYOR_REPO_BRANCH -eq "master" ) {
 
   Push-GHPages -Path "$ENV:APPVEYOR_BUILD_FOLDER\build\"
 } else {
-  "Not Pushing GH-PAGES because ENV:APPVEYOR_REPO_BRANCH is '$ENV:APPVEYOR_REPO_BRANCH'."
+  "Not Pushing GH-PAGES because ENV:APPVEYOR_REPO_BRANCH is '$ENV:APPVEYOR_REPO_BRANCH'." | Write-Warning;
 }
