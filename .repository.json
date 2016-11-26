@@ -1,33 +1,48 @@
 {
-    "repository": {
-      "id": "repository.camalot",
-      "url": "https://github.com/camalot/repository.camalot"
+  "repository": {
+    "id": "repository.camalot",
+    "url": "https://github.com/camalot/repository.camalot"
+  },
+  "plugins": [
+    {
+      "name": "repository.camalot",
+      "github_url": "https://github.com/camalot/repository.camalot.git",
+      "tag_exclude_pattern": [
+        "*-prerelease"
+      ],
+      "platforms": ["jarvis", "krypton"]
     },
-    "plugins": [
-        {
-            "name": "repository.camalot",
-            "github_url": "https://github.com/camalot/repository.camalot.git",
-            "tag_exclude_pattern": ["*-prerelease"]
-        },
-        {
-            "name": "plugin.image.kodur",
-            "github_url": "https://github.com/camalot/kodur.git",
-            "tag_exclude_pattern": ["*-prerelease"]
-        },
-        {
-            "name": "plugin.image.kochandi",
-            "github_url": "https://github.com/camalot/kochandi.git",
-            "tag_exclude_pattern": ["*-prerelease"]
-        },
-        {
-            "name": "plugin.video.microsoft.channel9",
-            "github_url": "https://github.com/camalot/plugin.video.microsoft.channel9.git",
-            "tag_exclude_pattern": ["*-prerelease"]
-        },
-        {
-            "name": "plugin.video.microsoftvirtualacademy",
-            "github_url": "https://github.com/camalot/plugin.video.microsoftvirtualacademy.git",
-            "tag_exclude_pattern": ["*-prerelease"]
-        }
-    ]
+    {
+      "name": "plugin.image.kodur",
+      "github_url": "https://github.com/camalot/kodur.git",
+      "tag_exclude_pattern": [
+        "*-prerelease"
+      ],
+      "platforms": ["jarvis"]
+    },
+    {
+      "name": "plugin.image.kochandi",
+      "github_url": "https://github.com/camalot/kochandi.git",
+      "tag_exclude_pattern": [
+        "*-prerelease"
+      ],
+      "platforms": ["jarvis"]
+    },
+    {
+      "name": "plugin.video.microsoft.channel9",
+      "github_url": "https://github.com/camalot/plugin.video.microsoft.channel9.git",
+      "tag_exclude_pattern": [
+        "*-prerelease"
+      ],
+      "platforms": ["jarvis"]
+    },
+    {
+      "name": "plugin.video.microsoftvirtualacademy",
+      "github_url": "https://github.com/camalot/plugin.video.microsoftvirtualacademy.git",
+      "tag_exclude_pattern": [
+        "*-prerelease"
+      ],
+      "platforms": ["jarvis"]
+    }
+  ]
 }

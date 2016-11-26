@@ -6,8 +6,6 @@ import json
 import shutil
 import os
 import hashlib
-import urllib
-import collections
 import fnmatch
 import requests
 import zipfile
@@ -66,6 +64,8 @@ def build_plugins():
 			tag_list.append(t.name)
 		tag_list.sort(reverse=True)
 
+		latest_processed = False
+
 		for tag in tag_list:
 			it_filtered = False
 			# include filter
@@ -87,6 +87,7 @@ def build_plugins():
 
 			tag_name = tag
 
+			# if the tag starts with <addon.id>- then we 'trim' it
 			lname = "%s-" % name
 			if tag_name.startswith(lname):
 				tag_name = tag_name[len(lname):]
@@ -153,7 +154,10 @@ def build_plugins():
 				# according to the spec, this MUST exist in the plugin
 				shutil.copy2(os.path.join(build_plugin_version_path, "icon.png"), latest_icon)
 
-				addons_xml_root.append(plugin_addon_xml.getroot())
+				# Only add the latest version to this
+				if not latest_processed:
+					addons_xml_root.append(plugin_addon_xml.getroot())
+					latest_processed = True
 				shutil.rmtree(build_plugin_version_path)
 			except Exception as err:
 				print "download failed: {0}".format(err)
@@ -163,7 +167,9 @@ def build_plugins():
 				shutil.make_archive(build_repo_path, 'zip', build_plugins_dir, name_with_version)
 				shutil.move('%s.zip' % build_repo_path, build_repo_path)
 				plugin_addon_xml = etree.parse(open(os.path.join(build_repo_path, 'addon.xml')))
-				addons_xml_root.append(plugin_addon_xml.getroot())
+				if not latest_processed:
+					addons_xml_root.append(plugin_addon_xml.getroot())
+					latest_processed = True
 				_cleanup_path(build_repo_path)
 				shutil.move(os.path.join(build_repo_path, 'changelog.txt'),
 				            os.path.join(build_repo_path, 'changelog-%s.txt' % version))
@@ -216,57 +222,6 @@ def _cleanup_path(path):
 				os.remove(_f)
 
 
-# def build_repo():
-# 	icon_file = repo_info['icon']
-# 	if os.path.isfile(icon_file):
-# 		shutil.copyfile(icon_file, os.path.join(build_repo_final_dir, 'icon.png'))
-# 	elif icon_file.startswith('http://') or icon_file.startswith('https://'):
-# 		urllib.urlretrieve(icon_file, os.path.join(build_repo_final_dir, 'icon.png'))
-#
-# 	attrib = collections.OrderedDict()
-# 	for k in ('id', 'name', 'version', 'provider-name'):
-# 		attrib.update([(k, repo_info[k])])
-#
-# 	addon_xml_root = etree.Element('addon', attrib=attrib)
-#
-# 	requires_node = etree.Element('requires')
-# 	addon_xml_root.append(requires_node)
-#
-# 	etree.SubElement(requires_node, 'import',
-# 	                 attrib=collections.OrderedDict([('addon', 'xbmc.addon'), ('version', '12.0.0')]))
-#
-# 	extension_node = etree.SubElement(
-# 		addon_xml_root,
-# 		'extension',
-# 		attrib=collections.OrderedDict([('point', 'xbmc.addon.repository'), ('name', repo_info['name'])])
-# 	)
-#
-# 	etree.SubElement(extension_node, 'info', attrib={'compressed': 'true'}).text = '%s/addons.xml' % host_url
-# 	etree.SubElement(extension_node, 'checksum').text = '%s/addons.xml.md5' % host_url
-# 	etree.SubElement(extension_node, 'datadir', attrib={'zip': 'true'}).text = host_url
-# 	etree.SubElement(extension_node, 'hashes').text = 'true'
-#
-# 	extension_node = etree.SubElement(addon_xml_root, 'extension', attrib={'point': 'xbmc.addon.metadata'})
-#
-# 	etree.SubElement(extension_node, 'summary').text = repo_info['summary']
-# 	etree.SubElement(extension_node, 'description').text = repo_info['description']
-# 	etree.SubElement(extension_node, 'platform').text = 'all'
-#
-# 	xml_str = etree.tostring(addon_xml_root, pretty_print=True, encoding='UTF-8', standalone=True)
-#
-# 	f = open(os.path.join(build_repo_final_dir, 'addon.xml'), 'w')
-# 	f.write(xml_str)
-# 	f.close()
-#
-# 	changelog = "[B]Version %s[/B]\n- Initial version" % repo_info['version']
-# 	f = open(os.path.join(build_repo_final_dir, 'changelog.txt'), 'w')
-# 	f.write(changelog)
-# 	f.close()
-#
-# 	shutil.make_archive(build_repo_final_dir, 'zip', build_repo_dir, repo_name)
-# 	shutil.move('%s.zip' % build_repo_final_dir, '%s.zip' % build_repo_final_zip)
-# 	_md5_hash_file('%s.zip' % build_repo_final_zip)
-
 def build_gh_pages(root, current_dir):
 	cur_dir = os.path.join(root, current_dir)
 
@@ -297,12 +252,9 @@ def build_gh_pages(root, current_dir):
 
 
 @click.command()
-# @click.option('--gh-pages', is_flag=True)
-# def run(gh_pages):
 def run():
 	init()
 	build_plugins()
-	# if gh_pages:
 	build_gh_pages(os.path.abspath(build_dir), '')
 
 
