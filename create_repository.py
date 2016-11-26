@@ -127,33 +127,40 @@ def build_plugins():
 				zip_ref.close()
 
 				shutil.move(os.path.join(temp_extract_path, name), build_plugin_version_path)
-				shutil.move(local_filename, os.path.join(build_plugin_version_path, "%s.zip" % name_with_version))
+				version_zip = os.path.join(build_plugin_version_path, "%s.zip" % name_with_version)
+				shutil.move(local_filename, version_zip)
+
+				_md5_hash_file(version_zip)
+
 				plugin_addon_xml = etree.parse(open(os.path.join(build_plugin_version_path, 'addon.xml')))
 				if os.path.exists(os.path.join(build_plugin_version_path, 'changelog.txt')):
 					shutil.move(os.path.join(build_plugin_version_path, 'changelog.txt'),
 				                os.path.join(build_plugin_version_path, 'changelog-%s.txt' % version))
 
 				# put latest in root
-				latest_zip = os.path.join(build_plugin_path, "%s-latest.zip" % name)
-				latest_changelog = os.path.join(build_plugin_path, "changelog.txt")
 				latest_icon = os.path.join(build_plugin_path, "icon.png")
 				latest_fanart = os.path.join(build_plugin_path, "fanart.jpg")
 
-				latest_files = [latest_changelog, latest_zip, latest_icon, latest_fanart]
+				latest_files = [latest_icon, latest_fanart]
 				for l in latest_files:
 					if os.path.exists(l):
 						os.remove(l)
 
-				shutil.copy2(os.path.join(build_plugin_version_path, "%s.zip" % name_with_version), latest_zip)
+				shutil.move(version_zip, os.path.join(build_plugin_path, "%s.zip" % name_with_version))
+				shutil.move("%s.md5" % version_zip, os.path.join(build_plugin_path, "%s.zip.md5" % name_with_version))
+
 				if os.path.exists(os.path.join(build_plugin_version_path, 'changelog-%s.txt' % version)):
-					shutil.copy2(os.path.join(build_plugin_version_path, 'changelog-%s.txt' % version), latest_changelog)
+					shutil.copy2(os.path.join(build_plugin_version_path, 'changelog-%s.txt' % version),
+					             os.path.join(build_plugin_path, 'changelog-%s.txt' % version))
+
+
 				if os.path.exists(os.path.join(build_plugin_version_path, "fanart.jpg")):
 					shutil.copy2(os.path.join(build_plugin_version_path, "fanart.jpg"), latest_fanart)
 				# according to the spec, this MUST exist in the plugin
 				shutil.copy2(os.path.join(build_plugin_version_path, "icon.png"), latest_icon)
 
 				addons_xml_root.append(plugin_addon_xml.getroot())
-				_cleanup_path(build_plugin_version_path)
+				shutil.rmtree(build_plugin_version_path)
 			except Exception as err:
 				print "download failed: {0}".format(err)
 
@@ -161,17 +168,21 @@ def build_plugins():
 	shutil.rmtree(temp_extract_path)
 
 	xml_str = etree.tostring(addons_xml_root, pretty_print=True)
+	addon_xml_file = os.path.join(build_plugins_dir, 'addons.xml')
+	with open(addon_xml_file, 'w') as f:
+		f.write(xml_str)
 
-	f = open(os.path.join(build_plugins_dir, 'addons.xml'), 'w')
-	f.write(xml_str)
-	f.close()
+	_md5_hash_file(addon_xml_file)
 
-	m = hashlib.md5()
-	m.update(xml_str)
 
-	f = open(os.path.join(build_plugins_dir, 'addons.xml.md5'), 'w')
-	f.write(m.hexdigest())
-	f.close()
+def _md5_hash_file(file_name):
+	hash_md5 = hashlib.md5()
+	with open(file_name, "rb") as f:
+		for chunk in iter(lambda: f.read(4096), b""):
+			hash_md5.update(chunk)
+
+	with open("%s.md5" % file_name, 'w') as f:
+		f.write(hash_md5.hexdigest())
 
 
 def _download_file(url, dest):
@@ -191,7 +202,7 @@ def _download_file(url, dest):
 
 def _cleanup_path(path):
 	for f in os.listdir(path):
-		if f.startswith('changelog.') or f.startswith('fanart.') or f.startswith('icon.') or f.endswith('.zip'):
+		if f.startswith('changelog-') or f.startswith('fanart.') or f.startswith('icon.') or f.endswith('.zip'):
 			pass
 		else:
 			_f = os.path.join(path, f)
