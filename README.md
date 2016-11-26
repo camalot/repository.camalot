@@ -4,6 +4,30 @@
 
 Cloned from [RobLoach's](http://github.com/robloach) [repository.robloach ](https://github.com/RobLoach/repository.robloach). The repository itself built with [kodi-create-repo](https://github.com/virajkanwade/kodi-create-repo), by [Viraj Kanwade](https://github.com/virajkanwade).
 
+----
+
+## Add Repository to Kodi
+
+- Navigate to `System -> File Manager`
+- Open file browser and click on `Add Source`
+- For the path, enter: `https://camalot.github.io/repository.camalot/`
+- For the name, enter: `camalot-repo`  
+  [![Add Repo](http://i.imgur.com/JtKm9kXl.png)](http://i.imgur.com/JtKm9kX.png)
+  
+--- 
+  
+- Next, go to `System -> Add-ons`
+- Click on `Install from zip file`
+- Navigate to `camalot-repo/repository.camalot-1.0/repository.camalot-1.0.zip`
+- Click `OK`
+
+---
+- Now back to `System -> Add-ons`
+- Click on `Install from repository`
+- Select `camalot's Addons` and browse the addons
+
+
+----
 ## Build
 
 ``` bash
