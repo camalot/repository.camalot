@@ -279,7 +279,7 @@ def build_gh_pages(root, current_dir):
 
 	index_path = os.path.join('/', pth)
 
-	html = "<html><head><title>Index of %s</title></head><body bgcolor=\"white\"><h1>Index of %s</h1><hr><pre>" % (index_path, index_path)
+	html = "<html><body><h1>Directory listing</h1><hr/><pre>" % (index_path, index_path)
 	item = '.' if index_path == '/' else '../'
 	html += "<a href=\"%s\">%s</a>\n" % (item, "../")
 	dir_items = os.listdir(cur_dir)
@@ -291,7 +291,7 @@ def build_gh_pages(root, current_dir):
 			build_gh_pages(root, os.path.join(current_dir, item))
 		else:
 			html += "<a href=\"%s\">%s</a>\n" % (item, item)
-	html += "</pre><hr></body></html>"
+	html += "</pre></body></html>"
 
 	f = open(os.path.join(cur_dir, 'index.html'), 'w')
 	f.write(html)
