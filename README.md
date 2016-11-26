@@ -30,36 +30,51 @@ Cloned from [RobLoach's](http://github.com/robloach) [repository.robloach ](http
 ----
 ## Build
 
-``` bash
-python create_repository.py && ./update-directory-index.sh && ./push-gh-pages.sh build
+Build is typically handled by CI (Appveyor). The scripts to just 'package' the repository addon is 
+`.build/build.msbuild`.
+
+Steps that CI takes is a bit different.
+
+- `.appveyor/appveyor.install.ps1`
+  - installs the software needed to build. 
+  - **DO NOT** run locally, it sets git credentials, it will set them blank because the 
+  environment variables are not defined.
+- `.appveyor/appveyor.before-build.ps1`
+  - preps things before building
+- `.build/build.msbuild`
+  - performs the packaging / build of the repository addon.
+- `.build/CIProperties.msbuild`
+  - this is included by `.build/build.msbuild`. it sets values that are used by `.build/build.msbuild`,
+  and has `defaults` so the build script can be executed locally.
+- `.appveyor/appveyor.after-build.ps1`
+  - sets some env variables for where we are deploying, dependant upon the branch.
+- `.appveyor/appveyor.tests.ps1` 
+  - execute some tests
+- `.appveyor/appveyor.before-packaging.ps1`
+  - currently nothing
+- `.appveyor/appveyor.before-deployment.ps1`
+  - currently nothing
+- `.appveyor/appveyor.after-deployment.ps1`
+  - currently nothing
+- `.appveyor/appveyor.on-success.ps1`
+  - if the build and deployment was successful, it will generate the repository and then
+  publish it to the gh-pages branch.
+  
+To run a `local` build of the repo and publish it to `gh-pages` you will need to set the following environment 
+variables:
+
+- `$ENV:CI_DEPLOY_GITHUB=$true`  
+- `$ENV:APPVEYOR_BUILD_FOLDER="."` 
+  - This is the working directory, which should be the root of the project.
+       
+Then run `.appveyor/appveyor.on-success.ps1` from the root of the project
+
 ```
-
-# kodi-create-repo
-Helper script to put together a Kodi repo for your plugins
-
-**REQUIREMENTS:**
-- Install lxml and GitPython. ``` pip install -r requirements.txt ```
+PS> $ENV:CI_DEPLOY_GITHUB=$true;
+PS> $ENV:APPVEYOR_BUILD_FOLDER=".";
+PS> ./.appveyor/appveyor.on-success.ps1
+```
 
 **CONFIG:**
 - Create a copy of ```config.json.sample``` and name it ```config.json```
 - Edit config.json to set the correct values.
-
-**RUN:**
-- ```python create_repository.py```
-- ```python create_repository.py --gh-pages``` *Will generate directory listing index pages for upload to github repo with gh-pages.*
-
-**OUTPUT:**
-- The repo structure files are stored in build directory
-
-**NOTE:**
-- Currently supports only addons available in github
-- Uses tags for version number
-
-**THANKS:**
-- Special thanks to [Simple Core](https://www.youtube.com/channel/UCgC_gjO6044hDD6RRm5o7Iw)  
-[![](http://img.youtube.com/vi/zm1pvAt5uvU/mqdefault.jpg)](https://www.youtube.com/watch?v=zm1pvAt5uvU)
-
-**TODO:**
-- Handle addon update
-- Handle separate kodi version for addons and repo structure
-- FTP upload

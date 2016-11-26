@@ -15,17 +15,19 @@ import zipfile
 plugins_dir = 'addons'
 build_dir = 'build'
 temp_dir = 'temp'
-build_plugins_dir = os.path.join(build_dir, plugins_dir)
-build_repo_dir = os.path.join(build_dir, 'repository')
+build_plugins_dir = os.path.join(build_dir)
+build_repo_dir = os.path.join(build_dir)
 build_temp_dir = os.path.join(build_dir, temp_dir)
 
-config = json.load(open('config.json'))
+config = json.load(open('.repository.json'))
 host_url = config['host_url']
 plugins_info = config['plugins']
 repo_info = config['repository']
 
 repo_name_with_version = '%s-%s' % (repo_info['id'], repo_info['version'])
-build_repo_final_dir = os.path.join(build_repo_dir, repo_name_with_version)
+repo_name = repo_info['id']
+build_repo_final_dir = os.path.join(build_repo_dir, repo_info['id'])
+build_repo_final_zip = os.path.join(build_repo_dir, repo_info['id'], repo_name_with_version)
 
 
 def init():
@@ -37,8 +39,6 @@ def init():
 
 	os.mkdir(build_dir)
 	os.mkdir(build_temp_dir)
-	os.mkdir(build_plugins_dir)
-	os.mkdir(build_repo_dir)
 	os.mkdir(build_repo_final_dir)
 
 
@@ -163,6 +163,17 @@ def build_plugins():
 				shutil.rmtree(build_plugin_version_path)
 			except Exception as err:
 				print "download failed: {0}".format(err)
+				# need to refactor so it behaves like the above
+				build_repo_path = os.path.join(build_plugins_dir, name_with_version)
+				shutil.copytree(repo_dir, build_repo_path, ignore=shutil.ignore_patterns('.git*'))
+				shutil.make_archive(build_repo_path, 'zip', build_plugins_dir, name_with_version)
+				shutil.move('%s.zip' % build_repo_path, build_repo_path)
+				plugin_addon_xml = etree.parse(open(os.path.join(build_repo_path, 'addon.xml')))
+				addons_xml_root.append(plugin_addon_xml.getroot())
+				_cleanup_path(build_repo_path)
+				shutil.move(os.path.join(build_repo_path, 'changelog.txt'),
+				            os.path.join(build_repo_path, 'changelog-%s.txt' % version))
+				shutil.move(build_repo_path, os.path.join(build_plugins_dir, name))
 
 	# remove temp path
 	shutil.rmtree(temp_extract_path)
@@ -202,7 +213,8 @@ def _download_file(url, dest):
 
 def _cleanup_path(path):
 	for f in os.listdir(path):
-		if f.startswith('changelog-') or f.startswith('fanart.') or f.startswith('icon.') or f.endswith('.zip'):
+		if f.startswith('changelog') or f.startswith('fanart.') or f.startswith('icon.') or \
+				f.endswith('.zip'):
 			pass
 		else:
 			_f = os.path.join(path, f)
@@ -212,57 +224,56 @@ def _cleanup_path(path):
 				os.remove(_f)
 
 
-def build_repo():
-	icon_file = repo_info['icon']
-	if os.path.isfile(icon_file):
-		shutil.copyfile(icon_file, os.path.join(build_repo_final_dir, 'icon.png'))
-	elif icon_file.startswith('http://') or icon_file.startswith('https://'):
-		urllib.urlretrieve(icon_file, os.path.join(build_repo_final_dir, 'icon.png'))
-
-	attrib = collections.OrderedDict()
-	for k in ('id', 'name', 'version', 'provider-name'):
-		attrib.update([(k, repo_info[k])])
-
-	addon_xml_root = etree.Element('addon', attrib=attrib)
-
-	requires_node = etree.Element('requires')
-	addon_xml_root.append(requires_node)
-
-	etree.SubElement(requires_node, 'import',
-	                 attrib=collections.OrderedDict([('addon', 'xbmc.addon'), ('version', '12.0.0')]))
-
-	extension_node = etree.SubElement(
-		addon_xml_root,
-		'extension',
-		attrib=collections.OrderedDict([('point', 'xbmc.addon.repository'), ('name', repo_info['name'])])
-	)
-
-	etree.SubElement(extension_node, 'info', attrib={'compressed': 'true'}).text = '%s/%s/addons.xml' % \
-	                                                                               (host_url, plugins_dir)
-	etree.SubElement(extension_node, 'checksum').text = '%s/%s/addons.xml.md5' % (host_url, plugins_dir)
-	etree.SubElement(extension_node, 'datadir', attrib={'zip': 'true'}).text = '%s/%s' % (host_url, plugins_dir)
-	etree.SubElement(extension_node, 'hashes').text = 'true'
-
-	extension_node = etree.SubElement(addon_xml_root, 'extension', attrib={'point': 'xbmc.addon.metadata'})
-
-	etree.SubElement(extension_node, 'summary').text = repo_info['summary']
-	etree.SubElement(extension_node, 'description').text = repo_info['description']
-	etree.SubElement(extension_node, 'platform').text = 'all'
-
-	xml_str = etree.tostring(addon_xml_root, pretty_print=True, encoding='UTF-8', standalone=True)
-
-	f = open(os.path.join(build_repo_final_dir, 'addon.xml'), 'w')
-	f.write(xml_str)
-	f.close()
-
-	changelog = "[B]Version %s[/B]\n- Initial version" % repo_info['version']
-	f = open(os.path.join(build_repo_final_dir, 'changelog.txt'), 'w')
-	f.write(changelog)
-	f.close()
-
-	shutil.make_archive(build_repo_final_dir, 'zip', build_repo_dir, repo_name_with_version)
-	shutil.move('%s.zip' % build_repo_final_dir, build_repo_final_dir)
-
+# def build_repo():
+# 	icon_file = repo_info['icon']
+# 	if os.path.isfile(icon_file):
+# 		shutil.copyfile(icon_file, os.path.join(build_repo_final_dir, 'icon.png'))
+# 	elif icon_file.startswith('http://') or icon_file.startswith('https://'):
+# 		urllib.urlretrieve(icon_file, os.path.join(build_repo_final_dir, 'icon.png'))
+#
+# 	attrib = collections.OrderedDict()
+# 	for k in ('id', 'name', 'version', 'provider-name'):
+# 		attrib.update([(k, repo_info[k])])
+#
+# 	addon_xml_root = etree.Element('addon', attrib=attrib)
+#
+# 	requires_node = etree.Element('requires')
+# 	addon_xml_root.append(requires_node)
+#
+# 	etree.SubElement(requires_node, 'import',
+# 	                 attrib=collections.OrderedDict([('addon', 'xbmc.addon'), ('version', '12.0.0')]))
+#
+# 	extension_node = etree.SubElement(
+# 		addon_xml_root,
+# 		'extension',
+# 		attrib=collections.OrderedDict([('point', 'xbmc.addon.repository'), ('name', repo_info['name'])])
+# 	)
+#
+# 	etree.SubElement(extension_node, 'info', attrib={'compressed': 'true'}).text = '%s/addons.xml' % host_url
+# 	etree.SubElement(extension_node, 'checksum').text = '%s/addons.xml.md5' % host_url
+# 	etree.SubElement(extension_node, 'datadir', attrib={'zip': 'true'}).text = host_url
+# 	etree.SubElement(extension_node, 'hashes').text = 'true'
+#
+# 	extension_node = etree.SubElement(addon_xml_root, 'extension', attrib={'point': 'xbmc.addon.metadata'})
+#
+# 	etree.SubElement(extension_node, 'summary').text = repo_info['summary']
+# 	etree.SubElement(extension_node, 'description').text = repo_info['description']
+# 	etree.SubElement(extension_node, 'platform').text = 'all'
+#
+# 	xml_str = etree.tostring(addon_xml_root, pretty_print=True, encoding='UTF-8', standalone=True)
+#
+# 	f = open(os.path.join(build_repo_final_dir, 'addon.xml'), 'w')
+# 	f.write(xml_str)
+# 	f.close()
+#
+# 	changelog = "[B]Version %s[/B]\n- Initial version" % repo_info['version']
+# 	f = open(os.path.join(build_repo_final_dir, 'changelog.txt'), 'w')
+# 	f.write(changelog)
+# 	f.close()
+#
+# 	shutil.make_archive(build_repo_final_dir, 'zip', build_repo_dir, repo_name)
+# 	shutil.move('%s.zip' % build_repo_final_dir, '%s.zip' % build_repo_final_zip)
+# 	_md5_hash_file('%s.zip' % build_repo_final_zip)
 
 def build_gh_pages(root, current_dir):
 	cur_dir = os.path.join(root, current_dir)
@@ -322,7 +333,7 @@ def build_gh_pages(root, current_dir):
 def run(gh_pages):
 	init()
 	build_plugins()
-	build_repo()
+	# build_repo()
 	if gh_pages:
 		build_gh_pages(os.path.abspath(build_dir), '')
 

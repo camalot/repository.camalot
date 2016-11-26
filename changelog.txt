@@ -1,2 +1,4 @@
-[B]Version 1.0[B]
+[B]1.0.1[/B]
+    - Build the repo like other plugins
+[B]1.0[/B]
     - initial version

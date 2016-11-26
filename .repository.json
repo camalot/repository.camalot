@@ -1,11 +1,11 @@
 {
     "repository": {
         "id": "repository.camalot",
-        "name": "camalot's Addons",
+        "name": "camalot's repository",
         "version": "1.0",
         "provider-name": "camalot",
-        "summary": "camalot's Kodi Addons.",
-        "description": "Kodi Addons provided by Ryan Conrad (camalot)",
+        "summary": "camalot's Kodi repository.",
+        "description": "Kodi repository provided by Ryan Conrad (camalot)",
         "icon": "icon.png"
     },
     "host_url": "http://camalot.github.io/repository.camalot",
