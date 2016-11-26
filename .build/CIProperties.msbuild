@@ -29,6 +29,8 @@
 
 		<CI_PROJECT_URL>https://github.com/camalot/repository.camalot/</CI_PROJECT_URL>
 
+		<KODI_REPO_URL>https://camalot.github.io/repository.camalot</KODI_REPO_URL>
+
 		<Major>$(CI_BUILD_MAJOR)</Major>
 		<Minor>$(CI_BUILD_MINOR)</Minor>
 		<Build>$(CI_BUILD_NUMBER)</Build>

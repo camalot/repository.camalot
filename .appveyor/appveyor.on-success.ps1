@@ -10,6 +10,7 @@ function Push-GHPages {
     $cwd = Get-Location;
   }
   process {
+    Set-GitCredentials;
     Set-Location -Path $Path;
     $cdup = (& git rev-parse --show-cdup)
     if ( $cdup -ne '' ) {
@@ -40,8 +41,22 @@ function Initialize-KodiRepository {
   }
 }
 
+function Set-GitCredentials {
+    param()
+    begin{}
+    process {
+        if ($ENV:GITHUB_ACCESS_TOKEN -ne '' -and $ENV:GITHUB_EMAIL -ne '' -and $ENV:GITHUB_USERNAME -ne '') {
+            & git config --global credential.helper store
+            & git config --global user.email "$($ENV:GITHUB_EMAIL)"
+            & git config --global user.name "$($ENV:GITHUB_USERNAME)"
+            Add-Content "$ENV:USERPROFILE\.git-credentials" "https://$($ENV:GITHUB_ACCESS_TOKEN):x-oauth-basic@github.com`n"
+        }
+    }
+}
+
 
 if ( $ENV:CI_DEPLOY_GITHUB ) {
   Initialize-KodiRepository;
+
   Push-GHPages -Path "$ENV:APPVEYOR_BUILD_FOLDER\build\"
 }

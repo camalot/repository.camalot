@@ -1,4 +1,7 @@
 build/
 addons/
 .idea/
-ex
+bin/
+.env
+.env.*
+.*.env

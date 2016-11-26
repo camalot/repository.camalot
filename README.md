@@ -75,6 +75,9 @@ PS> $ENV:APPVEYOR_BUILD_FOLDER=".";
 PS> ./.appveyor/appveyor.on-success.ps1
 ```
 
-**CONFIG:**
-- Create a copy of ```config.json.sample``` and name it ```config.json```
-- Edit config.json to set the correct values.
+----
+## Configuration
+
+Configuration of what addons are included is set in `.repository.json`.
+
+- `host_url`: The url of the repository

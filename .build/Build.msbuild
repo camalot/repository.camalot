@@ -4,7 +4,7 @@
 	<Import Project="$(MSBuildProjectDirectory)\..\.build\MSBuild.Community.Tasks.Targets" Condition="'$(MSBuildCommunityTasksPath)' == ''"/>
 
 	<ItemGroup>
-		<Code Include="$(CI_PROJECT_PATH)\**\*.*" Exclude="$(CI_PROJECT_PATH)\.*\**\*.*;$(CI_PROJECT_PATH)\bin\**\*.*;$(CI_PROJECT_PATH)\**\.gitignore;$(CI_PROJECT_PATH)\**\*.yml"/>
+		<Code Include="$(CI_PROJECT_PATH)\**\*.xml;$(CI_PROJECT_PATH)\**\*.png;$(CI_PROJECT_PATH)\**\*.jpg;$(CI_PROJECT_PATH)\**\*.md;$(CI_PROJECT_PATH)\**\*.txt;" Exclude="$(CI_PROJECT_PATH)\.*\**\*.*;$(CI_PROJECT_PATH)\build\**\*;$(CI_PROJECT_PATH)\addons\**\*;$(CI_PROJECT_PATH)\bin\**\*.*;$(CI_PROJECT_PATH)\**\.*;$(CI_PROJECT_PATH)\**\.gitignore;$(CI_PROJECT_PATH)\**\*.yml;$(CI_PROJECT_PATH)\**\*.cfg"/>
 	</ItemGroup>
 
 	<PropertyGroup>
@@ -33,8 +33,15 @@
 	</Target>
 
 	<Target Name="AssemblyInfo">
-    <XmlUpdate Value="$(CI_BUILD_VERSION)"
-      XPath="/addon/@version" XmlFileName="$(OutputPath)$(CI_PROJECT_NAME)\addon.xml" />
+    	<XmlUpdate Value="$(CI_BUILD_VERSION)"
+				   XPath="/addon/@version" XmlFileName="$(OutputPath)$(CI_PROJECT_NAME)\addon.xml" />
+		<XmlUpdate Value="$(KODI_REPO_URL)"
+				   XPath="/addon/extension[@point='xbmc.addon.repository'][1]/datadir" XmlFileName="$(OutputPath)$(CI_PROJECT_NAME)\addon.xml" />
+		<XmlUpdate Value="$(KODI_REPO_URL)/addons.xml"
+				   XPath="/addon/extension[@point='xbmc.addon.repository'][1]/info" XmlFileName="$(OutputPath)$(CI_PROJECT_NAME)\addon.xml" />
+		<XmlUpdate Value="$(KODI_REPO_URL)/addons.xml.md5"
+				   XPath="/addon/extension[@point='xbmc.addon.repository'][1]/checksum" XmlFileName="$(OutputPath)$(CI_PROJECT_NAME)\addon.xml" />
+
 	</Target>
 
 	<Target Name="CleanBuild" DependsOnTargets="OutputPrep">
