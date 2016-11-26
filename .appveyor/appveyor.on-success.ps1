@@ -37,7 +37,7 @@ function Initialize-KodiRepository {
   param()
   begin {}
   process {
-    (& python ./.build/create_repository.py --gh-pages);
+    (& python ./.build/create_repository.py);
     if ( $LASTEXITCODE -ne 0 ) {
         exit $LASTEXITCODE;
     }
