@@ -280,8 +280,11 @@ def build_gh_pages(root, current_dir):
 	index_path = os.path.join('/', pth)
 
 	html = "<html><body><h1>Directory listing</h1><hr/><pre>"
-	item = '.' if index_path == '/' else '../'
+	item = '../' # if index_path == '/' else '../'
 	html += "<a href=\"%s\">%s</a>\n" % (item, "../")
+	html += "<a href=\"%s\">%s</a>\n" % ("repository.camalot/", "repository/")
+	html += "<a href=\"%s\">%s</a>\n" % ("addons/", "addons/")
+
 	dir_items = os.listdir(cur_dir)
 	for item in dir_items:
 		item_path = os.path.join(cur_dir, item)
