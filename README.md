@@ -40,6 +40,7 @@
 
  - Fork this repository
  - Create a new branch `request/<my-addon-id>` (where `<my-addon-id>` is the id of your addon).
+ - Edit `.repository.json` with the information for your addon.
  - Create a _Pull Request_ to the `develop` branch of this repo.
 
 ----

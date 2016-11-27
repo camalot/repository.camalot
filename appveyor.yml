@@ -17,8 +17,6 @@ before_build:
 build:
   project: .\.build\Build.msbuild
   verbosity: detailed
-before_package:
-- ps: .\.appveyor\appveyor.before-packaging.ps1
 after_build:
 - ps: .\.appveyor\appveyor.after-build.ps1
 test_script:
@@ -26,8 +24,6 @@ test_script:
 artifacts:
 - path: '**\bin\**\*.zip'
   name: Zip
-before_deploy:
-- ps: .\.appveyor\appveyor.before-deployment.ps1
 deploy:
 - provider: GitHub
   tag: $(CI_BUILD_VERSION)
@@ -48,8 +44,6 @@ deploy:
   on:
     branch: develop
     CI_DEPLOY_GITHUB_PRE: True
-after_deploy:
-- ps: .\.appveyor\appveyor.after-deployment.ps1
 on_success:
 - ps: .\.appveyor\appveyor.on-success.ps1
 notifications:
