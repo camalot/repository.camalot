@@ -9,6 +9,7 @@ import hashlib
 import fnmatch
 import requests
 import zipfile
+import glob
 from distutils.version import LooseVersion
 
 plugins_dir = 'addons'
@@ -22,6 +23,7 @@ plugins_info = config['plugins']
 repository = config['repository']
 repo_name = repository['id']
 repo_url = repository['url']
+repo_github_url = repository['github_url']
 
 def init():
 	if not os.path.isdir(plugins_dir):
@@ -82,99 +84,15 @@ def build_plugins():
 
 			name_with_version = '%s-%s' % (name, version)
 			print name_with_version
-
-			build_plugin_path = os.path.join(build_plugins_dir, name)
-			build_plugin_version_path = os.path.join(build_plugin_path, name_with_version)
 			# try to download pre-existing zip from github releases
 			try:
-				temp_extract_path = build_temp_dir
-				if not os.path.exists(temp_extract_path):
-					os.mkdir(temp_extract_path)
-
-				try:
-					release_zip_url = '%s/releases/download/%s/%s.zip' % (github_url, tag, name_with_version)
-					local_filename = _download_file(release_zip_url, build_temp_dir)
-					with zipfile.ZipFile(local_filename, 'r') as zip_ref:
-						zip_ref.extractall(temp_extract_path)
-				except Exception as oops:
-					# some break the rules and put the v in the package... lets fix it.
-					release_zip_url = '%s/releases/download/%s/%s-v%s.zip' % (github_url, tag, name, version)
-					local_filename = _download_file(release_zip_url, os.path.join(build_temp_dir, "%s.zip" % name_with_version))
-					with zipfile.ZipFile(local_filename, 'r') as zip_ref:
-						zip_ref.extractall(temp_extract_path)
-
-				shutil.move(os.path.join(temp_extract_path, name), build_plugin_version_path)
-				version_zip = os.path.join(build_plugin_version_path, "%s.zip" % name_with_version)
-				shutil.move(local_filename, version_zip)
-
-				_md5_hash_file(version_zip)
-
-				plugin_addon_xml = etree.parse(open(os.path.join(build_plugin_version_path, 'addon.xml')))
-				if os.path.exists(os.path.join(build_plugin_version_path, 'changelog.txt')):
-					shutil.move(os.path.join(build_plugin_version_path, 'changelog.txt'),
-					            os.path.join(build_plugin_version_path, 'changelog-%s.txt' % version))
-
-				# put latest in root
-				latest_icon = os.path.join(build_plugin_path, "icon.png")
-				latest_fanart = os.path.join(build_plugin_path, "fanart.jpg")
-
-				latest_files = [latest_icon, latest_fanart]
-				for l in latest_files:
-					if os.path.exists(l):
-						os.remove(l)
-
-				shutil.move(version_zip, os.path.join(build_plugin_path, "%s.zip" % name_with_version))
-				shutil.move("%s.md5" % version_zip, os.path.join(build_plugin_path, "%s.zip.md5" % name_with_version))
-
-				if os.path.exists(os.path.join(build_plugin_version_path, 'changelog-%s.txt' % version)):
-					shutil.copy2(os.path.join(build_plugin_version_path, 'changelog-%s.txt' % version),
-					             os.path.join(build_plugin_path, 'changelog-%s.txt' % version))
-
-
-				if os.path.exists(os.path.join(build_plugin_version_path, "fanart.jpg")):
-					shutil.copy2(os.path.join(build_plugin_version_path, "fanart.jpg"), latest_fanart)
-				# according to the spec, this MUST exist in the plugin
-				shutil.copy2(os.path.join(build_plugin_version_path, "icon.png"), latest_icon)
-
-				# Only add the latest version to this
-				if not latest_processed:
-					addons_xml_root.append(plugin_addon_xml.getroot())
+				if _process_release_addon(tag, plugin_info, addons_xml_root, latest_processed):
 					latest_processed = True
-				shutil.rmtree(build_plugin_version_path)
 			except Exception as err:
-
 				print "download failed: {0}".format(err)
-				temp_extract_path = build_temp_dir
-				if os.path.isfile(os.path.join(build_temp_dir, "%s.zip" % name_with_version)):
-					os.remove(os.path.join(build_temp_dir, "%s.zip" % name_with_version))
-				# need to refactor so it behaves like the above
-				build_repo_path = os.path.join(temp_extract_path, name)
-				# copy the git repo to build_repo_path
-				shutil.copytree(repo_dir, build_repo_path, ignore=shutil.ignore_patterns('.git*'))
-				shutil.make_archive(build_plugin_version_path, 'zip', temp_extract_path, name)
-				_md5_hash_file("%s.zip" % build_plugin_version_path)
-				plugin_addon_xml = etree.parse(open(os.path.join(build_repo_path, 'addon.xml')))
-				if not latest_processed:
-					addons_xml_root.append(plugin_addon_xml.getroot())
+				if _process_non_release_addon(repo_dir, name, version, addons_xml_root, latest_processed):
 					latest_processed = True
-				_cleanup_path(build_repo_path)
 
-				latest_icon = os.path.join(build_plugin_path, "icon.png")
-				latest_fanart = os.path.join(build_plugin_path, "fanart.jpg")
-
-				latest_files = [latest_icon, latest_fanart]
-				for l in latest_files:
-					if os.path.exists(l):
-						os.remove(l)
-
-				shutil.move(os.path.join(build_repo_path, 'changelog.txt'),
-				            os.path.join(build_plugin_path, 'changelog-%s.txt' % version))
-
-				if os.path.exists(os.path.join(build_repo_path, "fanart.jpg")):
-					shutil.move(os.path.join(build_repo_path, "fanart.jpg"), latest_fanart)
-				# according to the spec, this MUST exist in the plugin
-				shutil.move(os.path.join(build_repo_path, "icon.png"), latest_icon)
-				shutil.rmtree(build_repo_path)
 	# remove temp path
 	shutil.rmtree(build_temp_dir)
 
@@ -186,6 +104,113 @@ def build_plugins():
 	_md5_hash_file(addon_xml_file)
 
 
+def _process_release_addon(tag, plugin_info, addons_xml_root, latest_processed):
+	name = plugin_info["name"]
+	version = _get_version_from_tag(name, tag)
+	github_url = plugin_info["github_url"]
+	if github_url.endswith('.git'):
+		github_url = github_url[:-4]
+	addons_xml_added = False
+	name_with_version = "%s-%s" % (name, version)
+
+	build_plugin_path = os.path.join(build_plugins_dir, name)
+	build_plugin_version_path = os.path.join(build_plugin_path, name_with_version)
+
+	temp_extract_path = build_temp_dir
+	if not os.path.exists(temp_extract_path):
+		os.mkdir(temp_extract_path)
+
+	try:
+		release_zip_url = '%s/releases/download/%s/%s.zip' % (github_url, tag, name_with_version)
+		local_filename = _download_file(release_zip_url, build_temp_dir)
+		with zipfile.ZipFile(local_filename, 'r') as zip_ref:
+			zip_ref.extractall(temp_extract_path)
+	except Exception as oops:
+		# some break the rules and put the v in the package... lets fix it.
+		release_zip_url = '%s/releases/download/%s/%s-v%s.zip' % (github_url, tag, name, version)
+		local_filename = _download_file(release_zip_url, os.path.join(build_temp_dir, "%s.zip" % name_with_version))
+		with zipfile.ZipFile(local_filename, 'r') as zip_ref:
+			zip_ref.extractall(temp_extract_path)
+
+	shutil.move(os.path.join(temp_extract_path, name), build_plugin_version_path)
+	version_zip = os.path.join(build_plugin_version_path, "%s.zip" % name_with_version)
+	shutil.move(local_filename, version_zip)
+
+	_md5_hash_file(version_zip)
+
+	plugin_addon_xml = etree.parse(open(os.path.join(build_plugin_version_path, 'addon.xml')))
+	if os.path.exists(os.path.join(build_plugin_version_path, 'changelog.txt')):
+		shutil.move(os.path.join(build_plugin_version_path, 'changelog.txt'),
+		            os.path.join(build_plugin_version_path, 'changelog-%s.txt' % version))
+
+	# put latest in root
+	latest_icon = os.path.join(build_plugin_path, "icon.png")
+	latest_fanart = os.path.join(build_plugin_path, "fanart.jpg")
+
+	latest_files = [latest_icon, latest_fanart]
+	for l in latest_files:
+		if os.path.exists(l):
+			os.remove(l)
+
+	shutil.move(version_zip, os.path.join(build_plugin_path, "%s.zip" % name_with_version))
+	shutil.move("%s.md5" % version_zip, os.path.join(build_plugin_path, "%s.zip.md5" % name_with_version))
+
+	if os.path.exists(os.path.join(build_plugin_version_path, 'changelog-%s.txt' % version)):
+		shutil.copy2(os.path.join(build_plugin_version_path, 'changelog-%s.txt' % version),
+		             os.path.join(build_plugin_path, 'changelog-%s.txt' % version))
+
+	if os.path.exists(os.path.join(build_plugin_version_path, "fanart.jpg")):
+		shutil.copy2(os.path.join(build_plugin_version_path, "fanart.jpg"), latest_fanart)
+	# according to the spec, this MUST exist in the plugin
+	shutil.copy2(os.path.join(build_plugin_version_path, "icon.png"), latest_icon)
+
+	# Only add the latest version to this
+	if not latest_processed:
+		addons_xml_root.append(plugin_addon_xml.getroot())
+		addons_xml_added = True
+	shutil.rmtree(build_plugin_version_path)
+	return addons_xml_added
+
+
+def _process_non_release_addon(repo_dir, name, version, addons_xml_root, latest_processed):
+	addons_xml_added = False
+	name_with_version = "%s-%s" % (name, version)
+	temp_extract_path = build_temp_dir
+	build_plugin_path = os.path.join(build_plugins_dir, name)
+	build_plugin_version_path = os.path.join(build_plugin_path, name_with_version)
+	if os.path.isfile(os.path.join(build_temp_dir, "%s.zip" % name_with_version)):
+		os.remove(os.path.join(build_temp_dir, "%s.zip" % name_with_version))
+	# need to refactor so it behaves like the above
+	build_repo_path = os.path.join(temp_extract_path, name)
+	# copy the git repo to build_repo_path
+	shutil.copytree(repo_dir, build_repo_path, ignore=shutil.ignore_patterns('.git*'))
+	shutil.make_archive(build_plugin_version_path, 'zip', temp_extract_path, name)
+	_md5_hash_file("%s.zip" % build_plugin_version_path)
+	plugin_addon_xml = etree.parse(open(os.path.join(build_repo_path, 'addon.xml')))
+	if not latest_processed:
+		addons_xml_root.append(plugin_addon_xml.getroot())
+		addons_xml_added = True
+	_cleanup_path(build_repo_path)
+
+	latest_icon = os.path.join(build_plugin_path, "icon.png")
+	latest_fanart = os.path.join(build_plugin_path, "fanart.jpg")
+
+	latest_files = [latest_icon, latest_fanart]
+	for l in latest_files:
+		if os.path.exists(l):
+			os.remove(l)
+
+	shutil.move(os.path.join(build_repo_path, 'changelog.txt'),
+	            os.path.join(build_plugin_path, 'changelog-%s.txt' % version))
+
+	if os.path.exists(os.path.join(build_repo_path, "fanart.jpg")):
+		shutil.move(os.path.join(build_repo_path, "fanart.jpg"), latest_fanart)
+	# according to the spec, this MUST exist in the plugin
+	shutil.move(os.path.join(build_repo_path, "icon.png"), latest_icon)
+	shutil.rmtree(build_repo_path)
+	return addons_xml_added
+
+
 def _get_version_from_tag(plugin_name, tag):
 	out_tag = tag
 	lname = "%s-" % plugin_name
@@ -193,6 +218,8 @@ def _get_version_from_tag(plugin_name, tag):
 		out_tag = out_tag[len(lname):]
 	if out_tag.startswith("v"):
 		out_tag = out_tag[1:]
+	if out_tag.endswith(".zip"):
+		out_tag = out_tag[:-4]
 	return out_tag
 
 
@@ -259,6 +286,7 @@ def _cleanup_path(path):
 
 def build_gh_pages(root, current_dir):
 	cur_dir = os.path.join(root, current_dir)
+	print "building index.html for %s/" % current_dir
 
 	pth = os.path.relpath(cur_dir, root)
 	if pth == '.':
@@ -281,11 +309,67 @@ def build_gh_pages(root, current_dir):
 	ts = datetime.datetime.now().strftime('%d-%b-%Y %H:%M')
 	doc_version = os.getenv('CI_BUILD_VERSION', '1.0.0.0')
 	html += "</pre><hr/><div>Generated by <a href=\"%s\">%s</a> v%s at %s</div></body></html>" \
-	        % (repo_url, repo_name, doc_version, ts)
+	        % (repo_github_url, repo_name, doc_version, ts)
 
-	f = open(os.path.join(cur_dir, 'index.html'), 'w')
-	f.write(html)
-	f.close()
+	with open(os.path.join(cur_dir, 'index.html'), 'w') as f:
+		f.write(html)
+
+
+def _build_gh_readme():
+	print "generating readme"
+	repo_version = ""
+	data = []
+	for plugin_info in plugins_info:
+		name = plugin_info['name']
+
+		github_url = plugin_info['github_url']
+
+		if github_url.endswith('.git'):
+			github_url = github_url[:-4]
+		else:
+			github_url = "%s.git" % github_url
+		pi_dir = os.path.join(build_plugins_dir, name)
+		dir_items = glob.glob1(pi_dir, "*.zip")
+		dir_items.sort(key=lambda x: LooseVersion(_get_version_from_tag(name, x)), reverse=True)
+		if len(dir_items) >= 1:
+			item = dir_items[0]
+			if os.path.isfile(os.path.join(pi_dir, item)):
+				if name == repo_name:
+					repo_version = _get_version_from_tag(name, item)
+				c = {
+					"name": name,
+					"version": _get_version_from_tag(name, item),
+					"url": github_url
+				}
+				data.append(c)
+
+	readme_file = os.path.join(build_plugins_dir, "readme.md")
+	if os.path.exists(readme_file):
+		os.remove(readme_file)
+	markdown = "# [%s](%s)\n\n|  | Plugin | Version | Download |\n| ----- | ----- | ----- | ----- |\n" \
+	           % (repo_name, repo_url)
+	for pd in data:
+		dl = "%s/%s/%s-%s.zip" % (repo_url, pd["name"], pd["name"], pd["version"])
+		md5 = "%s.md5" % dl
+		# https://github.com/camalot/repository.camalot/raw/gh-pages/plugin.image.kodur/icon.png
+		markdown += \
+			"| <img src=\"%s/raw/gh-pages/%s/icon.png\" width=\"24\" /> | [%s](%s) | %s | [[DL](%s)] [[MD5](%s)] |\n" \
+			% (repo_github_url, pd["name"], pd["name"], pd["url"], pd["version"], dl, md5)
+	ts = datetime.datetime.now().strftime('%d-%b-%Y %H:%M')
+	doc_version = os.getenv('CI_BUILD_VERSION', '1.0.0.0')
+
+	markdown += "----\n\nRepository version %s - %s\n\n----\n" % (doc_version, ts)
+
+	with open('.ghp_readme.md', 'r') as ghtf:
+		data = ghtf.read()\
+			.replace('#{REPO_URL}', repo_url)\
+			.replace("#{REPO_NAME}", repo_name)\
+			.replace("#{REPO_VERSION}", repo_version)
+
+	markdown += "\n%s\n" % data
+
+	with open(readme_file, 'w') as f:
+		f.write(markdown)
 
 
 @click.command()
@@ -293,6 +377,7 @@ def run():
 	init()
 	build_plugins()
 	build_gh_pages(os.path.abspath(build_dir), '')
+	_build_gh_readme()
 
 
 if __name__ == "__main__":
