@@ -19,21 +19,20 @@
 - Navigate to `System -> File Manager`
 - Open file browser and click on `Add Source`
 - For the path, enter: `https://camalot.github.io/repository.camalot/`
-- For the name, enter: `camalot-repo`  
-  [![Add Repo](http://i.imgur.com/JtKm9kXl.png)](http://i.imgur.com/JtKm9kX.png)
+- For the name, enter: `repository.camalot`  
+  [![Add Repo](http://i.imgur.com/VlRyIVtl.png)](http://i.imgur.com/VlRyIVt.png)
   
 --- 
   
 - Next, go to `System -> Add-ons`
 - Click on `Install from zip file`
-- Navigate to `camalot-repo/repository.camalot-1.0/repository.camalot-1.0.zip`
+- Navigate to `repository.camalot://repository.camalot/repository.camalot-1.1.2.33216`
 - Click `OK`
 
 ---
 - Now back to `System -> Add-ons`
 - Click on `Install from repository`
-- Select `camalot's Addons` and browse the addons
-
+- Select repository.camalot (display name may be different) and browse the addons
 ----
 
 # Request your addon to be added
