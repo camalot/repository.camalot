@@ -21,29 +21,6 @@ after_build:
 - ps: .\.appveyor\appveyor.after-build.ps1
 test_script:
 - ps: ./.appveyor/appveyor.tests.ps1
-artifacts:
-- path: '**\bin\**\*.zip'
-  name: Zip
-deploy:
-- provider: GitHub
-  tag: $(CI_BUILD_VERSION)
-  release: $(CI_BUILD_VERSION)
-  auth_token:
-    secure: UEgy2H9zJKLi599QoO3qVf5BKFqloRQ246ez9cEgsfV3vooAUfVopMS9+IjRtArL
-  artifact: Zip
-  on:
-    branch: master
-    CI_DEPLOY_GITHUB: True
-- provider: GitHub
-  tag: $(CI_BUILD_VERSION)-prerelease
-  release: $(CI_BUILD_VERSION)-prerelease
-  auth_token:
-    secure: UEgy2H9zJKLi599QoO3qVf5BKFqloRQ246ez9cEgsfV3vooAUfVopMS9+IjRtArL
-  artifact: Zip
-  prerelease: true
-  on:
-    branch: develop
-    CI_DEPLOY_GITHUB_PRE: True
 on_success:
 - ps: .\.appveyor\appveyor.on-success.ps1
 notifications:
