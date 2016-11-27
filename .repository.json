@@ -8,7 +8,7 @@
       "name": "repository.camalot",
       "github_url": "https://github.com/camalot/plugin.repository.camalot.git",
       "tag_exclude_pattern": [
-        "*-prerelease"
+        "*-beta", "*-prerelease", "*-alpha"
       ],
       "platforms": ["jarvis", "krypton"]
     },
@@ -16,7 +16,7 @@
       "name": "plugin.image.kodur",
       "github_url": "https://github.com/camalot/kodur.git",
       "tag_exclude_pattern": [
-        "*-prerelease"
+        "*-beta", "*-prerelease", "*-alpha"
       ],
       "platforms": ["jarvis"]
     },
@@ -24,7 +24,7 @@
       "name": "plugin.image.kochandi",
       "github_url": "https://github.com/camalot/kochandi.git",
       "tag_exclude_pattern": [
-        "*-prerelease"
+        "*-beta", "*-prerelease", "*-alpha"
       ],
       "platforms": ["jarvis"]
     },
@@ -32,7 +32,7 @@
       "name": "plugin.video.microsoft.channel9",
       "github_url": "https://github.com/camalot/plugin.video.microsoft.channel9.git",
       "tag_exclude_pattern": [
-        "*-prerelease"
+        "*-beta", "*-prerelease", "*-alpha"
       ],
       "platforms": ["jarvis"]
     },
@@ -40,9 +40,31 @@
       "name": "plugin.video.microsoftvirtualacademy",
       "github_url": "https://github.com/camalot/plugin.video.microsoftvirtualacademy.git",
       "tag_exclude_pattern": [
-        "*-prerelease"
+        "*-beta", "*-prerelease", "*-alpha"
       ],
       "platforms": ["jarvis"]
+    },
+    {
+      "name": "plugin.video.youtube",
+      "github_url": "https://github.com/Kolifanes/plugin.video.youtube",
+      "tag_exclude_pattern": [
+        "*-beta", "*-prerelease", "*-alpha"
+      ]
+    },
+    {
+      "name": "plugin.video.streamondemand",
+      "github_url": "https://github.com/streamondemand/plugin.video.streamondemand",
+      "tag_exclude_pattern": [
+        "*-beta", "*-prerelease", "*-alpha"
+      ]
+    },
+    {
+      "name": "plugin.video.nasa",
+      "github_url": "https://github.com/dersphere/plugin.video.nasa",
+      "tag_exclude_pattern": [
+        "*-beta", "*-prerelease", "*-alpha"
+      ]
+
     }
   ]
 }
