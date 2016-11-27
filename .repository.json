@@ -65,6 +65,13 @@
         "*-beta", "*-prerelease", "*-alpha"
       ]
 
+    },
+    {
+      "name": "plugin.video.twit",
+      "github_url": "https://github.com/divingmule/plugin.video.twit",
+      "tag_exclude_pattern": [
+        "*-beta", "*-prerelease", "*-alpha"
+      ]
     }
   ]
 }

@@ -116,7 +116,7 @@ Addon packages will be pulled from _Github Releases_ if it can, otherwise, it wi
 as the addon package.
  
 To use _Github Releases_, the release name should follow the same pattern as the tags, and the zip file should be
-name `<addon.id>-<version>.zip`
+name `<addon.id>-[v]<version>.zip`
 
 ---- 
 
