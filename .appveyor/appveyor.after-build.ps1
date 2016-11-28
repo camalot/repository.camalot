@@ -75,5 +75,7 @@ if ( $env:CI_DEPLOY_GITHUB -eq $true ) {
   Initialize-KodiRepository;
   Push-GHPages -Path "$ENV:APPVEYOR_BUILD_FOLDER\build\"
 } else {
-  "Not Pushing GH-PAGES because ENV:CI_DEPLOY_GITHUB is '$ENV:CI_DEPLOY_GITHUB'." | Write-Warning;
+    if ( $env:CI -eq $true ) {
+        "Not Pushing GH-PAGES because ENV:CI_DEPLOY_GITHUB is '$ENV:CI_DEPLOY_GITHUB'." | Write-Warning;
+    }
 }

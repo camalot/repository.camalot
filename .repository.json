@@ -2,12 +2,12 @@
   "repository": {
     "id": "repository.camalot",
     "url": "https://camalot.github.io/repository.camalot",
-    "github_url":  "https://github.com/camalot/repository.camalot"
+    "source_url":  "https://github.com/camalot/repository.camalot"
   },
   "plugins": [
     {
       "name": "repository.camalot",
-      "github_url": "https://github.com/camalot/plugin.repository.camalot.git",
+      "source_url": "https://github.com/camalot/plugin.repository.camalot.git",
       "tag_exclude_pattern": [
         "*-beta", "*-prerelease", "*-alpha"
       ],
@@ -15,7 +15,7 @@
     },
     {
       "name": "plugin.image.kodur",
-      "github_url": "https://github.com/camalot/kodur.git",
+      "source_url": "https://github.com/camalot/kodur.git",
       "tag_exclude_pattern": [
         "*-beta", "*-prerelease", "*-alpha"
       ],
@@ -23,7 +23,7 @@
     },
     {
       "name": "plugin.image.kochandi",
-      "github_url": "https://github.com/camalot/kochandi.git",
+      "source_url": "https://github.com/camalot/kochandi.git",
       "tag_exclude_pattern": [
         "*-beta", "*-prerelease", "*-alpha"
       ],
@@ -31,7 +31,7 @@
     },
     {
       "name": "plugin.video.microsoft.channel9",
-      "github_url": "https://github.com/camalot/plugin.video.microsoft.channel9.git",
+      "source_url": "https://github.com/camalot/plugin.video.microsoft.channel9.git",
       "tag_exclude_pattern": [
         "*-beta", "*-prerelease", "*-alpha"
       ],
@@ -39,7 +39,7 @@
     },
     {
       "name": "plugin.video.microsoftvirtualacademy",
-      "github_url": "https://github.com/camalot/plugin.video.microsoftvirtualacademy.git",
+      "source_url": "https://github.com/camalot/plugin.video.microsoftvirtualacademy.git",
       "tag_exclude_pattern": [
         "*-beta", "*-prerelease", "*-alpha"
       ],
@@ -47,21 +47,21 @@
     },
     {
       "name": "plugin.video.youtube",
-      "github_url": "https://github.com/Kolifanes/plugin.video.youtube",
+      "source_url": "https://github.com/Kolifanes/plugin.video.youtube",
       "tag_exclude_pattern": [
-        "*-beta", "*-prerelease", "*-alpha"
+        "*-beta", "*-prerelease", "*-alpha", "*~alpha"
       ]
     },
     {
       "name": "plugin.video.streamondemand",
-      "github_url": "https://github.com/streamondemand/plugin.video.streamondemand",
+      "source_url": "https://github.com/streamondemand/plugin.video.streamondemand",
       "tag_exclude_pattern": [
         "*-beta", "*-prerelease", "*-alpha"
       ]
     },
     {
       "name": "plugin.video.nasa",
-      "github_url": "https://github.com/dersphere/plugin.video.nasa",
+      "source_url": "https://github.com/dersphere/plugin.video.nasa",
       "tag_exclude_pattern": [
         "*-beta", "*-prerelease", "*-alpha"
       ]
@@ -69,14 +69,36 @@
     },
     {
       "name": "plugin.video.twit",
-      "github_url": "https://github.com/divingmule/plugin.video.twit",
+      "source_url": "https://github.com/divingmule/plugin.video.twit",
       "tag_exclude_pattern": [
         "*-beta", "*-prerelease", "*-alpha"
       ]
     },
     {
       "name": "plugin.video.southpark_unofficial",
-      "github_url": "https://github.com/wargio/plugin.video.southpark_unofficial",
+      "source_url": "https://github.com/wargio/plugin.video.southpark_unofficial",
+      "tag_exclude_pattern": [
+        "*-beta", "*-prerelease", "*-alpha"
+      ]
+    },
+    {
+      "name": "plugin.video.kmediatorrent",
+      "source_url": "https://github.com/jmarth/plugin.video.kmediatorrent",
+      "tag_exclude_pattern": [
+        "*-beta", "*-prerelease", "*-alpha"
+      ]
+    },
+    {
+      "name": "plugin.video.liveleak",
+      "source_url": "https://github.com/oneadvent/plugin.video.liveleak",
+      "tag_exclude_pattern": [
+        "*-beta", "*-prerelease", "*-alpha"
+      ]
+    },
+    {
+      "name": "plugin.video.wwdc",
+      "source_url": "https://github.com/plu/plugin.video.wwdc",
+      "path": "plugin.video.wwdc/",
       "tag_exclude_pattern": [
         "*-beta", "*-prerelease", "*-alpha"
       ]
