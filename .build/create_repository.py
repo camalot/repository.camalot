@@ -203,39 +203,6 @@ def _process_non_tagged_addon(repo, name, addons_xml_root):
 
 	_process_non_release_addon(repo_dir, name, version, addons_xml_root, False)
 
-	# name_with_version = "%s-%s" % (name, version)
-	# temp_extract_path = build_temp_dir
-	# build_plugin_path = os.path.join(build_plugins_dir, name)
-	# build_plugin_version_path = os.path.join(build_plugin_path, name_with_version)
-	# if os.path.isfile(os.path.join(build_temp_dir, "%s.zip" % name_with_version)):
-	# 	os.remove(os.path.join(build_temp_dir, "%s.zip" % name_with_version))
-	#
-	# build_repo_path = os.path.join(temp_extract_path, name)
-	# # copy the git repo to build_repo_path
-	# shutil.copytree(repo_dir, build_repo_path, ignore=shutil.ignore_patterns('.git*'))
-	# shutil.make_archive(build_plugin_version_path, 'zip', temp_extract_path, name)
-	# _md5_hash_file("%s.zip" % build_plugin_version_path)
-	#
-	# _cleanup_path(build_repo_path)
-	#
-	# latest_icon = os.path.join(build_plugin_path, "icon.png")
-	# latest_fanart = os.path.join(build_plugin_path, "fanart.jpg")
-	#
-	# latest_files = [latest_icon, latest_fanart]
-	# for l in latest_files:
-	# 	if os.path.exists(l):
-	# 		os.remove(l)
-	#
-	# shutil.move(os.path.join(build_repo_path, 'changelog.txt'),
-	#             os.path.join(build_plugin_path, 'changelog-%s.txt' % version))
-	#
-	# if os.path.exists(os.path.join(build_repo_path, "fanart.jpg")):
-	# 	shutil.move(os.path.join(build_repo_path, "fanart.jpg"), latest_fanart)
-	# # according to the spec, this MUST exist in the plugin
-	# shutil.move(os.path.join(build_repo_path, "icon.png"), latest_icon)
-	# shutil.rmtree(build_repo_path)
-
-
 # checks for the 'required' files to process
 def _can_process_non_tagged(repo_dir):
 	if not os.path.isfile(os.path.join(repo_dir, "changelog.txt")):
