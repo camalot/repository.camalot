@@ -1,5 +1,4 @@
-[B]1.1[/B]
-    - Build the repo like other plugins
-    - plugins can be created from github repositories that do not have tags.
 [B]1.0[/B]
     - initial version
+    - Build the repo like other plugins
+    - plugins can be created from github repositories that do not have tags.
