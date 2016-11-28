@@ -73,6 +73,14 @@
       "tag_exclude_pattern": [
         "*-beta", "*-prerelease", "*-alpha"
       ]
+    },
+    {
+      "name": "plugin.video.southpark_unofficial",
+      "github_url": "https://github.com/wargio/plugin.video.southpark_unofficial",
+      "tag_exclude_pattern": [
+        "*-beta", "*-prerelease", "*-alpha"
+      ]
     }
+
   ]
 }

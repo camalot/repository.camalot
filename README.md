@@ -111,11 +111,16 @@ Configuration of what addons are included is set in `.repository.json`.
 The tag/release name can contain the `addon.id`, if it does, it *MUST* have a `-` after it.
 Before the `version` you can have an optional `v`. 
 
-Addon packages will be pulled from _Github Releases_ if it can, otherwise, it will use the source and package it up 
-as the addon package.
+Addon packages will be pulled from _Github Releases_ if it can, otherwise, it will use the source 
+associated from the tag, and package it up as the addon package.
  
 To use _Github Releases_, the release name should follow the same pattern as the tags, and the zip file should be
-name `<addon.id>-[v]<version>.zip`
+name `<addon.id>-[v]<version>.zip`. The version will be validated against the value in `addon.xml`. `addon.xml` is used
+as the source of truth, so if they do not match, the version in the `addon.xml` will be used.
+
+If it can't find the package from the release method, or even from a tag, it will create
+a package from the latest commit in the `default` branch. The `addon.xml` will be parsed 
+to get the version.
 
 ---- 
 

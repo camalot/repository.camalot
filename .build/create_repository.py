@@ -25,6 +25,7 @@ repo_name = repository['id']
 repo_url = repository['url']
 repo_github_url = repository['github_url']
 
+
 def init():
 	if not os.path.isdir(plugins_dir):
 		os.mkdir(plugins_dir)
@@ -64,34 +65,42 @@ def build_plugins():
 			tag_list.append(t.name)
 		# sort the tags as versions
 		tag_list.sort(key=lambda x: LooseVersion(_get_version_from_tag(name, x)), reverse=True)
-		latest_processed = False
-		for tag in tag_list:
 
-			print "tag: %s" % tag
+		if len(tag_list) == 0:
+			# repo doesn't have any tags, so we will generate the repo from the 'latest'
+			# we will get the version from the addon.xml
+			print "no tags"
+			_process_non_tagged_addon(repo, name, addons_xml_root)
+		else:
 
-			version = _get_version_from_tag(name, tag)
-			print "version: %s" % version
+			latest_processed = False
+			for tag in tag_list:
 
-			if _is_tag_filtered_out(plugin_info, tag):
-				continue
+				print "tag: %s" % tag
 
-			repo.git.checkout('tags/%s' % tag)
+				version = _get_version_from_tag(name, tag)
+				print "version: %s" % version
 
-			changelog_file = os.path.join(repo_dir, "changelog.txt")
-			if not os.path.isfile(changelog_file):
-				print "skipping: %s - No changelog" % version
-				continue
+				if _is_tag_filtered_out(plugin_info, tag):
+					continue
 
-			name_with_version = '%s-%s' % (name, version)
-			print name_with_version
-			# try to download pre-existing zip from github releases
-			try:
-				if _process_release_addon(tag, plugin_info, addons_xml_root, latest_processed):
-					latest_processed = True
-			except Exception as err:
-				print "download failed: {0}".format(err)
-				if _process_non_release_addon(repo_dir, name, version, addons_xml_root, latest_processed):
-					latest_processed = True
+				repo.git.checkout('tags/%s' % tag)
+
+				changelog_file = os.path.join(repo_dir, "changelog.txt")
+				if not os.path.isfile(changelog_file):
+					print "skipping: %s - No changelog" % version
+					continue
+
+				name_with_version = '%s-%s' % (name, version)
+				print name_with_version
+				# try to download pre-existing zip from github releases
+				try:
+					if _process_release_addon(tag, plugin_info, addons_xml_root, latest_processed):
+						latest_processed = True
+				except Exception as err:
+					print "download failed: {0}".format(err)
+					if _process_non_release_addon(repo_dir, name, version, addons_xml_root, latest_processed):
+						latest_processed = True
 
 	# remove temp path
 	shutil.rmtree(build_temp_dir)
@@ -122,6 +131,7 @@ def _process_release_addon(tag, plugin_info, addons_xml_root, latest_processed):
 
 	try:
 		release_zip_url = '%s/releases/download/%s/%s.zip' % (github_url, tag, name_with_version)
+		print release_zip_url
 		local_filename = _download_file(release_zip_url, build_temp_dir)
 		with zipfile.ZipFile(local_filename, 'r') as zip_ref:
 			zip_ref.extractall(temp_extract_path)
@@ -132,13 +142,21 @@ def _process_release_addon(tag, plugin_info, addons_xml_root, latest_processed):
 		with zipfile.ZipFile(local_filename, 'r') as zip_ref:
 			zip_ref.extractall(temp_extract_path)
 
+	plugin_addon_xml = etree.parse(open(os.path.join(temp_extract_path, name, 'addon.xml')))
+
+	real_version = _get_version_from_addon_tree(plugin_addon_xml)
+	if real_version != version:
+		# the version from the tag is incorrect
+		version = real_version
+		name_with_version = "%s-%s" % (name, version)
+		build_plugin_version_path = os.path.join(build_plugin_path, name_with_version)
+
 	shutil.move(os.path.join(temp_extract_path, name), build_plugin_version_path)
 	version_zip = os.path.join(build_plugin_version_path, "%s.zip" % name_with_version)
 	shutil.move(local_filename, version_zip)
 
 	_md5_hash_file(version_zip)
 
-	plugin_addon_xml = etree.parse(open(os.path.join(build_plugin_version_path, 'addon.xml')))
 	if os.path.exists(os.path.join(build_plugin_version_path, 'changelog.txt')):
 		shutil.move(os.path.join(build_plugin_version_path, 'changelog.txt'),
 		            os.path.join(build_plugin_version_path, 'changelog-%s.txt' % version))
@@ -172,6 +190,67 @@ def _process_release_addon(tag, plugin_info, addons_xml_root, latest_processed):
 	return addons_xml_added
 
 
+def _process_non_tagged_addon(repo, name, addons_xml_root):
+	repo_dir = os.path.join(plugins_dir, name)
+	repo.git.checkout("HEAD")
+
+	if not _can_process_non_tagged(repo_dir):
+		print "unable to process because required files are missing"
+		return
+
+	plugin_addon_xml = etree.parse(open(os.path.join(repo_dir, 'addon.xml')))
+	version = _get_version_from_addon_tree(plugin_addon_xml)
+
+	_process_non_release_addon(repo_dir, name, version, addons_xml_root, False)
+
+	# name_with_version = "%s-%s" % (name, version)
+	# temp_extract_path = build_temp_dir
+	# build_plugin_path = os.path.join(build_plugins_dir, name)
+	# build_plugin_version_path = os.path.join(build_plugin_path, name_with_version)
+	# if os.path.isfile(os.path.join(build_temp_dir, "%s.zip" % name_with_version)):
+	# 	os.remove(os.path.join(build_temp_dir, "%s.zip" % name_with_version))
+	#
+	# build_repo_path = os.path.join(temp_extract_path, name)
+	# # copy the git repo to build_repo_path
+	# shutil.copytree(repo_dir, build_repo_path, ignore=shutil.ignore_patterns('.git*'))
+	# shutil.make_archive(build_plugin_version_path, 'zip', temp_extract_path, name)
+	# _md5_hash_file("%s.zip" % build_plugin_version_path)
+	#
+	# _cleanup_path(build_repo_path)
+	#
+	# latest_icon = os.path.join(build_plugin_path, "icon.png")
+	# latest_fanart = os.path.join(build_plugin_path, "fanart.jpg")
+	#
+	# latest_files = [latest_icon, latest_fanart]
+	# for l in latest_files:
+	# 	if os.path.exists(l):
+	# 		os.remove(l)
+	#
+	# shutil.move(os.path.join(build_repo_path, 'changelog.txt'),
+	#             os.path.join(build_plugin_path, 'changelog-%s.txt' % version))
+	#
+	# if os.path.exists(os.path.join(build_repo_path, "fanart.jpg")):
+	# 	shutil.move(os.path.join(build_repo_path, "fanart.jpg"), latest_fanart)
+	# # according to the spec, this MUST exist in the plugin
+	# shutil.move(os.path.join(build_repo_path, "icon.png"), latest_icon)
+	# shutil.rmtree(build_repo_path)
+
+
+# checks for the 'required' files to process
+def _can_process_non_tagged(repo_dir):
+	if not os.path.isfile(os.path.join(repo_dir, "changelog.txt")):
+		return False
+	if not os.path.isfile(os.path.join(repo_dir, "icon.png")):
+		return False
+	if not os.path.isfile(os.path.join(repo_dir, "addon.xml")):
+		return False
+	return True
+
+
+def _get_version_from_addon_tree(addon_tree):
+	return addon_tree.getroot().attrib["version"]
+
+
 def _process_non_release_addon(repo_dir, name, version, addons_xml_root, latest_processed):
 	addons_xml_added = False
 	name_with_version = "%s-%s" % (name, version)
@@ -180,13 +259,21 @@ def _process_non_release_addon(repo_dir, name, version, addons_xml_root, latest_
 	build_plugin_version_path = os.path.join(build_plugin_path, name_with_version)
 	if os.path.isfile(os.path.join(build_temp_dir, "%s.zip" % name_with_version)):
 		os.remove(os.path.join(build_temp_dir, "%s.zip" % name_with_version))
-	# need to refactor so it behaves like the above
 	build_repo_path = os.path.join(temp_extract_path, name)
 	# copy the git repo to build_repo_path
 	shutil.copytree(repo_dir, build_repo_path, ignore=shutil.ignore_patterns('.git*'))
+
+	plugin_addon_xml = etree.parse(open(os.path.join(build_repo_path, 'addon.xml')))
+	real_version = _get_version_from_addon_tree(plugin_addon_xml)
+	if real_version != version:
+		# the version from the tag is incorrect
+		version = real_version
+		name_with_version = "%s-%s" % (name, version)
+		build_plugin_version_path = os.path.join(build_plugin_path, name_with_version)
+
 	shutil.make_archive(build_plugin_version_path, 'zip', temp_extract_path, name)
 	_md5_hash_file("%s.zip" % build_plugin_version_path)
-	plugin_addon_xml = etree.parse(open(os.path.join(build_repo_path, 'addon.xml')))
+
 	if not latest_processed:
 		addons_xml_root.append(plugin_addon_xml.getroot())
 		addons_xml_added = True
