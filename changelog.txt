@@ -2,3 +2,4 @@
     - initial version
     - Build the repo like other plugins
     - plugins can be created from github repositories that do not have tags.
+    - plugins can be pulled from other online repositories

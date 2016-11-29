@@ -4,6 +4,7 @@ import datetime
 import git
 import json
 import shutil
+import urlparse
 import os
 import hashlib
 import fnmatch
@@ -13,6 +14,9 @@ import glob
 from distutils.version import LooseVersion
 import mistune
 import sys
+from bs4 import BeautifulSoup
+from bs4 import SoupStrainer
+import http_request
 
 # sys.setdefaultencoding() does not exist, here!
 reload(sys)  # Reload does the trick!
@@ -49,55 +53,18 @@ def build_plugins():
 	for plugin_info in plugins_info:
 		name = plugin_info['name']
 		print "processing: %s" % name
-		source_url = plugin_info['source_url']
 
-		if source_url.endswith('.git'):
-			clone_url = source_url
-			source_url = source_url[:-4]
+		if name == "":
+			raise BaseException("plugin name is blank in configuration.")
+
+		if "source_url" in plugin_info:
+			_build_plugins_from_git(addons_xml_root, plugin_info)
+		elif "repository_url" in plugin_info:
+			_build_plugin_from_repository(addons_xml_root, plugin_info)
+		elif "zip_url" in plugin_info:
+			_build_plugin_from_zip(addons_xml_root, plugin_info)
 		else:
-			clone_url = "%s.git" % source_url
-
-		repo_dir = os.path.join(plugins_dir, name)
-		if not os.path.isdir(repo_dir):
-			repo = git.Repo.clone_from(clone_url, repo_dir)
-		else:
-			repo = git.Repo(repo_dir)
-
-		repo.remote().fetch()
-		repo.head.reset(index=True, working_tree=True)
-
-		tag_list = []
-		for t in repo.tags:
-			tag_list.append(t.name)
-		# sort the tags as versions
-		tag_list.sort(key=lambda x: LooseVersion(_get_version_from_tag(name, x)), reverse=True)
-
-		if len(tag_list) == 0:
-			# repo doesn't have any tags, so we will generate the repo from the 'latest'
-			# we will get the version from the addon.xml
-			_process_non_tagged_addon(repo, plugin_info, addons_xml_root)
-		else:
-
-			latest_processed = False
-			for tag in tag_list:
-
-				version = _get_version_from_tag(name, tag)
-				if _is_tag_filtered_out(plugin_info, tag):
-					continue
-
-				repo.git.checkout('tags/%s' % tag)
-
-				name_with_version = '%s-%s' % (name, version)
-				# try to download pre-existing zip from github releases
-
-				try:
-					if _process_github_release_addon(repo_dir, tag, plugin_info, addons_xml_root, latest_processed):
-						latest_processed = True
-				except Exception as err:
-					print "download failed: {0}".format(err)
-					if _process_non_release_addon(repo_dir, plugin_info, version, addons_xml_root, latest_processed):
-						latest_processed = True
-
+			raise BaseException("Unable to process plugin")
 	# remove temp path
 	shutil.rmtree(build_temp_dir)
 
@@ -107,6 +74,126 @@ def build_plugins():
 		f.write(xml_str)
 
 	_md5_hash_file(addon_xml_file)
+
+
+def _build_plugin_from_zip(addons_xml_root, plugin_info):
+	name = plugin_info['name']
+	zip_url = plugin_info['zip_url']
+	temp_extract_path = build_temp_dir
+	local_filename = _download_file(zip_url, os.path.join(build_temp_dir, "%s.zip" % name))
+	with zipfile.ZipFile(local_filename, 'r') as zip_ref:
+		zip_ref.extractall(temp_extract_path)
+
+	plugin_temp_path = os.path.join(temp_extract_path, name)
+	build_plugin_path = os.path.join(build_plugins_dir, name)
+	plugin_addon_xml = etree.parse(open(os.path.join(plugin_temp_path, 'addon.xml')))
+	version = _get_version_from_addon_tree(plugin_addon_xml)
+	name_with_version = "%s-%s" % (name, version)
+	build_plugin_version_path = os.path.join(build_plugin_path, name_with_version)
+
+	shutil.move(plugin_temp_path, build_plugins_dir)
+	version_zip = "%s.zip" % build_plugin_version_path
+	shutil.move(local_filename, version_zip)
+	_md5_hash_file(version_zip)
+
+	if os.path.exists(os.path.join(build_plugin_path, 'changelog.txt')):
+		shutil.move(os.path.join(build_plugin_path, 'changelog.txt'),
+		            os.path.join(build_plugin_path, 'changelog-%s.txt' % version))
+
+	_cleanup_path(build_plugin_path)
+
+
+def _build_plugins_from_git(addons_xml_root, plugin_info):
+	name = plugin_info['name']
+	source_url = plugin_info['source_url']
+
+	if source_url.endswith('.git'):
+		clone_url = source_url
+		source_url = source_url[:-4]
+	else:
+		clone_url = "%s.git" % source_url
+
+	repo_dir = os.path.join(plugins_dir, name)
+	if not os.path.isdir(repo_dir):
+		repo = git.Repo.clone_from(clone_url, repo_dir)
+	else:
+		repo = git.Repo(repo_dir)
+
+	repo.remote().fetch()
+	repo.head.reset(index=True, working_tree=True)
+
+	tag_list = []
+	for t in repo.tags:
+		tag_list.append(t.name)
+	# sort the tags as versions
+	tag_list.sort(key=lambda x: LooseVersion(_get_version_from_tag(name, x)), reverse=True)
+
+	if len(tag_list) == 0:
+		# repo doesn't have any tags, so we will generate the repo from the 'latest'
+		# we will get the version from the addon.xml
+		_process_non_tagged_addon(repo, plugin_info, addons_xml_root)
+	else:
+
+		latest_processed = False
+		for tag in tag_list:
+
+			version = _get_version_from_tag(name, tag)
+			if _is_tag_filtered_out(plugin_info, tag):
+				continue
+
+			repo.git.checkout('tags/%s' % tag)
+			# try to download pre-existing zip from github releases
+
+			try:
+				if _process_github_release_addon(repo_dir, tag, plugin_info, addons_xml_root, latest_processed):
+					latest_processed = True
+			except Exception as err:
+				print "download failed: {0}".format(err)
+				if _process_non_release_addon(repo_dir, plugin_info, version, addons_xml_root, latest_processed):
+					latest_processed = True
+
+
+def _build_plugin_from_repository(addons_xml_root, plugin_info):
+	name = plugin_info['name']
+	repository_url = plugin_info["repository_url"]
+	plugin_root_url = urlparse.urljoin(repository_url, "%s/" % name)
+	html_data = http_request.get(plugin_root_url)
+	beautiful_soup = BeautifulSoup(html_data, 'html.parser')
+	a_entries = filter(lambda x: x.get('href') == x.contents[0],
+	                   beautiful_soup.find_all("a", href=lambda x: not x.startswith("http")))
+	items = []
+	for a in a_entries:
+		items.append(a.get('href'))
+	# this checks if it has a bunch of files... some might not be 'requred'
+	if not _can_process_repository_plugin(items):
+		print "required file missing"
+		return
+
+	build_plugin_path = os.path.join(build_plugins_dir, name)
+	if not os.path.exists(build_plugin_path):
+		os.mkdir(build_plugin_path)
+
+	for file_name in items:
+		out_file = os.path.join(build_plugin_path, file_name)
+		dl_url = urlparse.urljoin(plugin_root_url, file_name)
+		_download_file(dl_url, out_file)
+
+	if not _repository_has_zip_md5(items):
+		zips = fnmatch.filter(items, "*.zip")
+		for z in zips:
+			zfile = os.path.join(build_plugin_path, z)
+			md5file = os.path.join(build_plugin_path, "%s.md5")
+			if not os.path.exists(md5file):
+				_md5_hash_file(zfile)
+
+	plugin_addon_xml = etree.parse(open(os.path.join(build_plugin_path, 'addon.xml')))
+	version = _get_version_from_addon_tree(plugin_addon_xml)
+	if os.path.exists(os.path.join(build_plugin_path, 'changelog.txt')):
+		shutil.move(os.path.join(build_plugin_path, 'changelog.txt'),
+		            os.path.join(build_plugin_path, 'changelog-%s.txt' % version))
+
+	addons_xml_root.append(plugin_addon_xml.getroot())
+	_cleanup_path(build_plugin_path)
 
 
 def _process_github_release_addon(repo_dir, tag, plugin_info, addons_xml_root, latest_processed):
@@ -226,6 +313,22 @@ def _can_process_non_tagged(repo_dir):
 	if not os.path.isfile(os.path.join(repo_dir, "icon.png")):
 		return False
 	if not os.path.isfile(os.path.join(repo_dir, "addon.xml")):
+		return False
+	return True
+
+
+def _can_process_repository_plugin(item_list):
+	if "addon.xml" not in item_list:
+		return False
+	if "icon.png" not in item_list:
+		return False
+	if len(fnmatch.filter(item_list, "*.zip")) == 0:
+		return False
+	return True
+
+
+def _repository_has_zip_md5(item_list):
+	if len(fnmatch.filter(item_list, "*.zip.md5")) != len(fnmatch.filter(item_list, "*.zip")):
 		return False
 	return True
 
@@ -386,7 +489,11 @@ def build_gh_pages(root, current_dir):
 		pth = ''
 
 	index_path = os.path.join('/', pth)
-	html = "<html><head><title>Index of %s</title><body><h1>Index of %s</h1><hr/><pre>" % (index_path, index_path)
+	heading_image = ""
+	if os.path.exists(os.path.join(cur_dir, "icon.png")):
+		heading_image = "<img src=\"./icon.png\" style=\"width:48px;height:48;margin-right:10px;\" alt=\"Index of %s\" />" % index_path
+	html = "<html><head><title>Index of %s</title><body><h1>%sIndex of %s</h1><hr/><pre>" \
+	       % (index_path, heading_image, index_path)
 	item = './' if index_path == '/' else '../'
 	html += "<a href=\"%s\">%s</a>\n" % (item, "../")
 
@@ -422,19 +529,26 @@ def build_gh_pages(root, current_dir):
 		f.write(unicode(html))
 
 
+def _get_source_url_from_plugin_info(plugin_info):
+	if 'source_url' in plugin_info:
+		return plugin_info['source_url']
+	elif 'repository_url' in plugin_info:
+		return plugin_info['repository_url']
+	elif 'zip_url' in plugin_info:
+		return plugin_info['zip_url']
+	else:
+		raise BaseException("Unable to locate source url")
+
+
 def _build_gh_readme():
 	print "generating readme"
 	repo_version = ""
 	data = []
 	for plugin_info in plugins_info:
 		name = plugin_info['name']
-
-		source_url = plugin_info['source_url']
-
+		source_url = _get_source_url_from_plugin_info(plugin_info)
 		if source_url.endswith('.git'):
 			source_url = source_url[:-4]
-		else:
-			source_url = "%s.git" % source_url
 		pi_dir = os.path.join(build_plugins_dir, name)
 		dir_items = glob.glob1(pi_dir, "*.zip")
 		dir_items.sort(key=lambda x: LooseVersion(_get_version_from_tag(name, x)), reverse=True)

@@ -53,13 +53,6 @@
       ]
     },
     {
-      "name": "plugin.video.streamondemand",
-      "source_url": "https://github.com/streamondemand/plugin.video.streamondemand",
-      "tag_exclude_pattern": [
-        "*-beta", "*-prerelease", "*-alpha"
-      ]
-    },
-    {
       "name": "plugin.video.nasa",
       "source_url": "https://github.com/dersphere/plugin.video.nasa",
       "tag_exclude_pattern": [
@@ -89,6 +82,14 @@
       ]
     },
     {
+      "name": "plugin.video.torrentrssviewer",
+      "source_url": "https://github.com/mancuniancol/plugin.video.torrentrssviewer",
+      "tag_exclude_pattern": [
+        "*-beta", "*-prerelease", "*-alpha"
+      ]
+
+    },
+    {
       "name": "plugin.video.liveleak",
       "source_url": "https://github.com/oneadvent/plugin.video.liveleak",
       "tag_exclude_pattern": [
@@ -102,7 +103,28 @@
       "tag_exclude_pattern": [
         "*-beta", "*-prerelease", "*-alpha"
       ]
+    },
+    {
+      "name": "plugin.video.geekandsundry",
+      "source_url": "https://github.com/ruuk/plugin.video.geekandsundry",
+      "tag_exclude_pattern": [
+        "*-beta", "*-prerelease", "*-alpha"
+      ]
+    },
+    {
+      "name": "plugin.video.twitch",
+      "source_url": "https://github.com/MrSprigster/Twitch-on-Kodi",
+      "tag_exclude_pattern": [
+        "*-beta", "*-prerelease", "*-alpha"
+      ]
+    },
+    {
+      "name": "repository.xbmchub",
+      "repository_url": "https://offshoregit.com/xbmchub/xbmc-hub-repo/raw/master/"
+    },
+    {
+      "name": "superrepo.kodi.jarvis.repositories",
+      "zip_url": "http://srp.nu/jarvis/repositories/superrepo/superrepo.kodi.jarvis.repositories-0.7.04.zip"
     }
-
   ]
 }
