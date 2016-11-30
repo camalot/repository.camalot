@@ -20,6 +20,8 @@ $ENV:APPVEYOR_BUILD_FOLDER = "$CWD\";
 
 Invoke-MsBuild -Path $CWD\.build/build.msbuild
 
+."$CWD\.appveyor\appveyor.tests.ps1"
+
 ."$CWD\.appveyor\appveyor.after-build.ps1"
 
 Initialize-KodiRepository;
