@@ -127,11 +127,15 @@
       "zip_url": "http://srp.nu/jarvis/repositories/superrepo/superrepo.kodi.jarvis.repositories-0.7.04.zip"
     },
     {
-      "name": "",
+      "name": "script.module.mctools",
       "source_url": "https://github.com/mancuniancol/script.module.mctools",
       "tag_exclude_pattern": [
         "*-beta", "*-prerelease", "*-alpha"
       ]
+    },
+    {
+      "name": "script.module.xbmcswift2",
+      "zip_url": "http://mirrors.kodi.tv/addons/jarvis/script.module.xbmcswift2/script.module.xbmcswift2-2.4.0.zip"
     }
   ]
 }

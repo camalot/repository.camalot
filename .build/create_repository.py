@@ -100,6 +100,7 @@ def _build_plugin_from_zip(addons_xml_root, plugin_info):
 		shutil.move(os.path.join(build_plugin_path, 'changelog.txt'),
 		            os.path.join(build_plugin_path, 'changelog-%s.txt' % version))
 
+	addons_xml_root.append(plugin_addon_xml.getroot())
 	_cleanup_path(build_plugin_path)
 
 
