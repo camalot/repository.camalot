@@ -1,4 +1,4 @@
-if ( $env:APPVEYOR_REPO_BRANCH -eq "master" ) {
+if ( $env:APPVEYOR_REPO_BRANCH -eq "master" -and ($env:APPVEYOR_PULL_REQUEST_NUMBER -eq $null -or $env:APPVEYOR_PULL_REQUEST_NUMBER == "") ) {
   $env:CI_DEPLOY_GITHUB = $true;
   $env:CI_DEPLOY_GITHUB_PRE = $false;
 } elseif ( $env:APPVEYOR_REPO_BRANCH -eq "develop" ) {
