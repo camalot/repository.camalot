@@ -91,7 +91,7 @@
     },
     {
       "name": "plugin.video.liveleak",
-      "source_url": "https://github.com/oneadvent/plugin.video.liveleak",
+      "source_url": "https://github.com/camalot/plugin.video.liveleak",
       "tag_exclude_pattern": [
         "*-beta", "*-prerelease", "*-alpha"
       ]
@@ -125,6 +125,13 @@
     {
       "name": "superrepo.kodi.jarvis.repositories",
       "zip_url": "http://srp.nu/jarvis/repositories/superrepo/superrepo.kodi.jarvis.repositories-0.7.04.zip"
+    },
+    {
+      "name": "",
+      "source_url": "https://github.com/mancuniancol/script.module.mctools",
+      "tag_exclude_pattern": [
+        "*-beta", "*-prerelease", "*-alpha"
+      ]
     }
   ]
 }
