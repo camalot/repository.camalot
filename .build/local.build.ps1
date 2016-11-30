@@ -20,7 +20,13 @@ $ENV:APPVEYOR_BUILD_FOLDER = "$CWD\";
 
 Invoke-MsBuild -Path $CWD\.build/build.msbuild
 
-."$CWD\.appveyor\appveyor.tests.ps1"
+$testResults = (& python -m unittest discover -v -s tests -p *.py *>&1);
+if ($LASTEXITCODE -ne 0) {
+    $testResults | Write-Error;
+    exit $LASTEXITCODE;
+} else {
+    $testResults | Write-Host;
+}
 
 ."$CWD\.appveyor\appveyor.after-build.ps1"
 

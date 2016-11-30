@@ -132,6 +132,10 @@
       "tag_exclude_pattern": [
         "*-beta", "*-prerelease", "*-alpha"
       ]
+    },
+    {
+      "name": "script.module.xbmcswift2",
+      "zip_url": "http://mirrors.kodi.tv/addons/jarvis/script.module.xbmcswift2/script.module.xbmcswift2-2.4.0.zip"
     }
   ]
 }
