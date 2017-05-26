@@ -75,22 +75,8 @@
       ]
     },
     {
-      "name": "script.module.simpleplugin",
-      "source_url": "https://github.com/romanvm/script.module.simpleplugin",
-      "tag_exclude_pattern": [
-        "*-beta", "*-prerelease", "*-alpha"
-      ]
-    },
-    {
       "name": "script.module.libtorrent",
       "source_url": "https://github.com/DiMartinoXBMC/script.module.libtorrent",
-      "tag_exclude_pattern": [
-        "*-beta", "*-prerelease", "*-alpha"
-      ]
-    },
-    {
-      "name": "plugin.video.yatp",
-      "source_url": "https://github.com/romanvm/kodi.yatp",
       "tag_exclude_pattern": [
         "*-beta", "*-prerelease", "*-alpha"
       ]
@@ -118,26 +104,12 @@
       ]
     },
     {
-      "name": "plugin.video.twitch",
-      "source_url": "https://github.com/MrSprigster/Twitch-on-Kodi",
-      "tag_exclude_pattern": [
-        "*-beta", "*-prerelease", "*-alpha"
-      ]
-    },
-    {
       "name": "repository.xbmchub",
       "repository_url": "https://offshoregit.com/xbmchub/xbmc-hub-repo/raw/master/"
     },
     {
       "name": "superrepo.kodi.jarvis.repositories",
       "zip_url": "http://srp.nu/jarvis/repositories/superrepo/superrepo.kodi.jarvis.repositories-0.7.04.zip"
-    },
-    {
-      "name": "script.module.mctools",
-      "source_url": "https://github.com/mancuniancol/script.module.mctools",
-      "tag_exclude_pattern": [
-        "*-beta", "*-prerelease", "*-alpha"
-      ]
     },
     {
       "name": "script.module.xbmcswift2",
