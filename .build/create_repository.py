@@ -100,6 +100,12 @@ def _build_plugin_from_zip(addons_xml_root, plugin_info):
 		shutil.move(os.path.join(build_plugin_path, 'changelog.txt'),
 		            os.path.join(build_plugin_path, 'changelog-%s.txt' % version))
 
+	readmes = glob.glob1(build_plugin_path, "readme*")
+	if len(readmes) > 0:
+		readme = readmes[0]
+		shutil.copy2(os.path.join(build_plugin_path, readme), os.path.join(build_plugin_path, "readme.md"))
+
+
 	addons_xml_root.append(plugin_addon_xml.getroot())
 	_cleanup_path(build_plugin_path)
 
@@ -193,6 +199,12 @@ def _build_plugin_from_repository(addons_xml_root, plugin_info):
 		shutil.move(os.path.join(build_plugin_path, 'changelog.txt'),
 		            os.path.join(build_plugin_path, 'changelog-%s.txt' % version))
 
+	readmes = glob.glob1(build_plugin_path, "readme*")
+	if len(readmes) > 0:
+		readme = readmes[0]
+		shutil.copy2(os.path.join(build_plugin_path, readme), os.path.join(build_plugin_path, "readme.md"))
+
+
 	addons_xml_root.append(plugin_addon_xml.getroot())
 	_cleanup_path(build_plugin_path)
 
@@ -226,11 +238,40 @@ def _process_github_release_addon(repo_dir, tag, plugin_info, addons_xml_root, l
 		with zipfile.ZipFile(local_filename, 'r') as zip_ref:
 			zip_ref.extractall(temp_extract_path)
 	except Exception as oops:
-		# some break the rules and put the v in the package... lets fix it.
-		release_zip_url = '%s/releases/download/%s/%s-v%s.zip' % (source_url, tag, name, version)
-		local_filename = _download_file(release_zip_url, os.path.join(build_temp_dir, "%s.zip" % name_with_version))
-		with zipfile.ZipFile(local_filename, 'r') as zip_ref:
-			zip_ref.extractall(temp_extract_path)
+		try:
+			# some break the rules and put the v in the package... lets fix it.
+			release_zip_url = '%s/releases/download/%s/%s-v%s.zip' % (source_url, tag, name, version)
+			local_filename = _download_file(release_zip_url, os.path.join(build_temp_dir, "%s.zip" % name_with_version))
+			with zipfile.ZipFile(local_filename, 'r') as zip_ref:
+				zip_ref.extractall(temp_extract_path)
+		except Exception as ex1:
+			print "error downloading: %s" % source_url
+			# try:
+			# 	# some break the rules and put the v in the package... lets fix it.
+			# 	release_zip_url = '%s/archive/%s-v%s.zip' % (source_url, name, version)
+			# 	local_filename = _download_file(release_zip_url, os.path.join(build_temp_dir, "%s.zip" % name_with_version))
+			# 	with zipfile.ZipFile(local_filename, 'r') as zip_ref:
+			# 		zip_ref.extractall(temp_extract_path)
+			# except Exception as ex2:
+			# 	try:
+			# 		# some break the rules and put the v in the package... lets fix it.
+			# 		release_zip_url = '%s/archive/%s-v%s.zip' % (source_url, name, version)
+			# 		local_filename = _download_file(release_zip_url, os.path.join(build_temp_dir, "%s.zip" % name_with_version))
+			# 		with zipfile.ZipFile(local_filename, 'r') as zip_ref:
+			# 			zip_ref.extractall(temp_extract_path)
+			# 	except Exception as ex3:
+			# 		try:
+			# 			release_zip_url = '%s/archive/%s.zip' % (source_url, tag)
+			# 			print release_zip_url
+			# 			local_filename = _download_file(release_zip_url, build_temp_dir)
+			# 			with zipfile.ZipFile(local_filename, 'r') as zip_ref:
+			# 				zip_ref.extractall(temp_extract_path)
+			# 		except Exception as ex4:
+			# 			release_zip_url = '%s/archive/%s.zip' % (source_url, tag)
+			# 			print release_zip_url
+			# 			local_filename = _download_file(release_zip_url, build_temp_dir)
+			# 			with zipfile.ZipFile(local_filename, 'r') as zip_ref:
+			# 				zip_ref.extractall(temp_extract_path)
 
 	plugin_addon_xml = etree.parse(open(os.path.join(temp_extract_path, name, 'addon.xml')))
 
