@@ -104,10 +104,6 @@
       ]
     },
     {
-      "name": "repository.xbmchub",
-      "repository_url": "https://offshoregit.com/xbmchub/xbmc-hub-repo/raw/master/"
-    },
-    {
       "name": "superrepo.kodi.jarvis.repositories",
       "zip_url": "http://srp.nu/jarvis/repositories/superrepo/superrepo.kodi.jarvis.repositories-0.7.04.zip"
     },
