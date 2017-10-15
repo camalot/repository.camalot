@@ -26,7 +26,7 @@ on_success:
 notifications:
 - provider: Slack
   auth_token:
-    secure: dEyWFeGEKdMmajrfGAYOGhWPEpivj1DiWu1xbbngPVcDW8vucg7JvWtJWTdARJ2bLedEg009P1o0JupLLx69Fg==
+    secure: dEyWFeGEKdMmajrfGAYOGrXJBwq9H8M7llX5BVEwBIYa6rSe4SL5I4Ho5DTl4tgm18qSPmk+daLfC1GVgs0SRd+WrRXn6uMKDoyeV4rzr+c=
   channel: notifications
   on_build_success: true
   on_build_failure: true
