@@ -105,6 +105,9 @@ def _build_plugin_from_zip(addons_xml_root, plugin_info):
 		readme = readmes[0]
 		shutil.copy2(os.path.join(build_plugin_path, readme), os.path.join(build_plugin_path, "readme.md"))
 
+	if os.path.exists(os.path.join(plugin_temp_path, 'addon.xml')):
+		shutil.move(os.path.join(plugin_temp_path, 'addon.xml'),
+		            os.path.join(build_plugin_path, 'addon.xml'))
 
 	addons_xml_root.append(plugin_addon_xml.getroot())
 	_cleanup_path(build_plugin_path)
@@ -203,7 +206,6 @@ def _build_plugin_from_repository(addons_xml_root, plugin_info):
 	if len(readmes) > 0:
 		readme = readmes[0]
 		shutil.copy2(os.path.join(build_plugin_path, readme), os.path.join(build_plugin_path, "readme.md"))
-
 
 	addons_xml_root.append(plugin_addon_xml.getroot())
 	_cleanup_path(build_plugin_path)
@@ -325,6 +327,10 @@ def _process_github_release_addon(repo_dir, tag, plugin_info, addons_xml_root, l
 
 	# Only add the latest version to this
 	if not latest_processed:
+		if os.path.exists(os.path.join(build_plugin_version_path, 'addon.xml')):
+			shutil.move(os.path.join(build_plugin_version_path, 'addon.xml'),
+			            os.path.join(build_plugin_path, 'addon.xml'))
+
 		addons_xml_root.append(plugin_addon_xml.getroot())
 		addons_xml_added = True
 	shutil.rmtree(build_plugin_version_path)
@@ -412,6 +418,10 @@ def _process_non_release_addon(repo_dir, plugin_info, version, addons_xml_root, 
 	_md5_hash_file("%s.zip" % build_plugin_version_path)
 
 	if not latest_processed:
+		if os.path.exists(os.path.join(build_repo_path, 'addon.xml')):
+			shutil.move(os.path.join(build_repo_path, 'addon.xml'),
+			            os.path.join(build_plugin_path, 'addon.xml'))
+
 		addons_xml_root.append(plugin_addon_xml.getroot())
 		addons_xml_added = True
 	_cleanup_path(build_repo_path)
@@ -512,7 +522,8 @@ def _download_file(url, dest):
 def _cleanup_path(path):
 	for f in os.listdir(path):
 		if f.startswith('changelog') or f.startswith('fanart.') or f.startswith('icon.') or \
-				f.endswith('.zip') or f.startswith("readme") or f.startswith("README"):
+				f.endswith('.zip') or f.startswith("readme") or f.startswith("README") or \
+				f.endswith("addon.xml"):
 			pass
 		else:
 			_f = os.path.join(path, f)
