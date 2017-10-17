@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<addon id="plugin.image.kochandi" name="KoChanDi" version="1.0.9.33216" provider-name="Ryan Conrad">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0" />
+    <import addon="script.module.beautifulsoup" version="3.2.0" />
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="addon.py">
+    <provides>image video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <platform>all</platform>
+    <summary>A 4chan browser for Kodi</summary>
+    <description>Browse chan boards</description>
+    <license><![CDATA[http://www.apache.org/licenses/LICENSE-2.0]]></license>
+    <source><![CDATA[https://github.com/camalot/kochandi]]></source>
+    <website><![CDATA[https://github.com/camalot/kochandi]]></website>
+  </extension>
+  <!--<extension point="xbmc.addon.repository"-->
+  <!--name="camalot's repository">-->
+  <!--<info compressed="true">https://camalot.github.io/repository.camalot/addons.xml</info>-->
+  <!--<checksum>https://camalot.github.io/repository.camalot/addons.xml.md5</checksum>-->
+  <!--<datadir zip="true">https://camalot.github.io/repository.camalot/</datadir>-->
+  <!--</extension>-->
+</addon>

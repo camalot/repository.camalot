@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon
+  id="plugin.video.wwdc"
+  name="WWDC"
+  version="1.0.0"
+  provider-name="Johannes Plunien">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0"/>
+  </requires>
+  <extension
+    point="xbmc.python.pluginsource"
+    library="default.py">
+   <provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <platform>all</platform>
+    <summary lang="en">Addon to watch WWDC sessions.</summary>
+    <language>en</language>
+    <description lang="en">Addon to watch WWDC sessions.</description>
+    <license>MIT</license>
+    <source>https://github.com/plu/plugin.video.wwdc</source>
+    <forum>none</forum>
+    <email>plu@pqpq.de</email>
+    <website>https://github.com/plu/plugin.video.wwdc</website>
+  </extension>
+</addon>

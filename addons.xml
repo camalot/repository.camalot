@@ -1,0 +1,457 @@
+<addons>
+  <addon id="repository.camalot" name="camalot's repository" version="1.1.2.33216" provider-name="Ryan Conrad">
+  <requires>
+    <import addon="xbmc.addon" version="12.0.0"/>
+  </requires>
+  <extension point="xbmc.addon.repository" name="camalot's repository">
+    <info compressed="true">https://camalot.github.io/repository.camalot/addons.xml</info>
+    <checksum>https://camalot.github.io/repository.camalot/addons.xml.md5</checksum>
+    <datadir zip="true">https://camalot.github.io/repository.camalot</datadir>
+    <hashes>true</hashes>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary>camalot's Kodi repository.</summary>
+    <description>Kodi repository provided by Ryan Conrad (camalot)</description>
+    <platform>all</platform>
+  </extension>
+</addon>
+  <addon id="plugin.image.kodur" name="kodur" version="1.0.12.33216" provider-name="Ryan Conrad">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0"/>
+    <import addon="script.module.beautifulsoup" version="3.2.0"/>
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="addon.py">
+    <provides>image video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <platform>all</platform>
+    <summary>Imgur browser</summary>
+    <description>Imgur browser</description>
+    <license>APACHE 2.0 LICENSE</license>
+    <license>http://www.apache.org/licenses/LICENSE-2.0</license>
+    <source>https://github.com/camalot/kodur</source>
+    <website>https://github.com/camalot/kodur</website>
+    <language>en</language>
+  </extension>
+  <!--<extension point="xbmc.addon.repository"-->
+  <!--name="camalot's repository">-->
+  <!--<info compressed="true">https://camalot.github.io/repository.camalot/addons.xml</info>-->
+  <!--<checksum>https://camalot.github.io/repository.camalot/addons.xml.md5</checksum>-->
+  <!--<datadir zip="true">https://camalot.github.io/repository.camalot/</datadir>-->
+  <!--</extension>-->
+</addon>
+  <addon id="plugin.image.kochandi" name="KoChanDi" version="1.0.9.33216" provider-name="Ryan Conrad">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0"/>
+    <import addon="script.module.beautifulsoup" version="3.2.0"/>
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="addon.py">
+    <provides>image video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <platform>all</platform>
+    <summary>A 4chan browser for Kodi</summary>
+    <description>Browse chan boards</description>
+    <license>http://www.apache.org/licenses/LICENSE-2.0</license>
+    <source>https://github.com/camalot/kochandi</source>
+    <website>https://github.com/camalot/kochandi</website>
+  </extension>
+  <!--<extension point="xbmc.addon.repository"-->
+  <!--name="camalot's repository">-->
+  <!--<info compressed="true">https://camalot.github.io/repository.camalot/addons.xml</info>-->
+  <!--<checksum>https://camalot.github.io/repository.camalot/addons.xml.md5</checksum>-->
+  <!--<datadir zip="true">https://camalot.github.io/repository.camalot/</datadir>-->
+  <!--</extension>-->
+</addon>
+  <addon id="plugin.video.microsoft.channel9" name="Microsoft Channel 9" version="2.0.63.28717" provider-name="Ryan Conrad">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0"/>
+    <import addon="script.module.beautifulsoup" version="3.2.0"/>
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="addon.py">
+    <provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <platform>all</platform>
+    <summary>Watch videos from Microsoft Channel 9</summary>
+    <description>Watch videos from Microsoft Channel 9 http://channel9.msdn.com/</description>
+    <language>en</language>
+    <license>http://www.apache.org/licenses/LICENSE-2.0</license>
+    <source>https://github.com/camalot/plugin.video.microsoft.channel9</source>
+    <website>https://github.com/camalot/plugin.video.microsoft.channel9</website>
+  </extension>
+  <!--<extension point="xbmc.addon.repository"-->
+  <!--name="camalot's repository">-->
+  <!--<info compressed="true">https://camalot.github.io/repository.camalot/addons.xml</info>-->
+  <!--<checksum>https://camalot.github.io/repository.camalot/addons.xml.md5</checksum>-->
+  <!--<datadir zip="true">https://camalot.github.io/repository.camalot/plugin.video.microsoft.channel9/</datadir>-->
+  <!--</extension>-->
+</addon>
+  <addon id="plugin.video.microsoftvirtualacademy" name="Microsoft Virtual Academy" version="1.0.14.33216" provider-name="Ryan Conrad">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0"/>
+    <import addon="script.module.beautifulsoup" version="3.2.0"/>
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="addon.py">
+    <provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <platform>all</platform>
+    <summary>Watch videos from Microsoft Virtual Academy</summary>
+    <description>Watch videos from Virtual Academy https://mva.microsoft.com/</description>
+    <license>http://www.apache.org/licenses/LICENSE-2.0</license>
+    <source>https://github.com/camalot/plugin.video.microsoftvirtualacademy</source>
+    <website>https://github.com/camalot/plugin.video.microsoftvirtualacademy</website>
+  </extension>
+  <!--<extension point="xbmc.addon.repository"-->
+  <!--name="camalot's repository">-->
+  <!--<info compressed="true">https://camalot.github.io/repository.camalot/addons.xml</info>-->
+  <!--<checksum>https://camalot.github.io/repository.camalot/addons.xml.md5</checksum>-->
+  <!--<datadir zip="true">https://camalot.github.io/repository.camalot/</datadir>-->
+  <!--</extension>-->
+</addon>
+  <addon id="plugin.video.youtube" name="YouTube" version="5.3.7" provider-name="jdf76, bromix">
+	<requires>
+		<import addon="xbmc.python" version="2.1.0"/>
+	</requires>
+	<extension point="xbmc.python.pluginsource" library="default.py">
+		<provides>video</provides>
+	</extension>
+    <extension point="xbmc.service" library="startup.py" start="startup"/>
+	<extension point="xbmc.addon.metadata">
+        <news>
+[add] MPEG-DASH support for Kodi 17 w/ inputstream.adaptive add-on or SPMC 16 w/ builtin-in
+[add] optional History and Watch Later custom playlist to Settings -&gt; Folders, or (My)Playlists context menu to set/remove
+[add] Maintenance section to Settings
+[add] 'Subtitle language(s) to download' selection to Settings -&gt; General
+[add] 'Force SSL Certificate verification' to Settings -&gt; Advanced
+[upd] API key set switching from Settings -&gt; API (this will log you out)
+[upd] Dual login only required if My Subscriptions folder is enabled at sign-in
+[upd] setting content type from episodes, now videos
+[del] override view options
+[upd] Norwegian strings [torstehu]
+[upd] Greek strings [twilight0]
+[upd] Portuguese strings [Wanilton]
+[upd] Dutch strings [flemlion]
+[fix/upd] API tweaking and various other updates
+        </news>
+        <assets>
+            <icon>icon.png</icon>
+            <fanart>fanart.jpg</fanart>
+        </assets>
+        <summary lang="en">Plugin for YouTube</summary>
+        <description lang="en">YouTube is one of the biggest video-sharing websites of the world.</description>
+		<summary lang="de">Plugin f&#252;r YouTube</summary>
+        <description lang="de">YouTube ist eines der gr&#246;&#223;ten Video-Sharing-Websites der Welt.</description>
+        <summary lang="pl">Wtyczka YouTube</summary>
+        <description lang="pl">YouTube jest jednym z najwi&#281;kszych na &#347;wiecie serwis&#243;w udost&#281;pniania wideo.</description>
+		<summary lang="hu">Kieg&#233;sz&#237;t&#337;  a YouTube-hoz</summary>
+        <description lang="hu">A YouTube vil&#225;g egyik legnagyobb vide&#243;megoszt&#243; weboldala.</description>
+        <summary lang="es">Plugin para YouTube</summary>
+        <description lang="es">YouTube es un uno de los mayores sitios web de intercambio de v&#237;deos del mundo.</description>
+        <summary lang="ru">&#1042;&#1080;&#1076;&#1077;&#1086;&#1076;&#1086;&#1087;&#1086;&#1083;&#1085;&#1077;&#1085;&#1080;&#1077; YouTube</summary>
+        <description lang="ru">&#1044;&#1072;&#1085;&#1085;&#1086;&#1077; &#1076;&#1086;&#1087;&#1086;&#1083;&#1085;&#1077;&#1085;&#1080;&#1077; &#1087;&#1086;&#1079;&#1074;&#1086;&#1083;&#1103;&#1077;&#1090; &#1085;&#1072;&#1093;&#1086;&#1076;&#1080;&#1090;&#1100; &#1080; &#1089;&#1084;&#1086;&#1090;&#1088;&#1077;&#1090;&#1100; &#1074;&#1080;&#1076;&#1077;&#1086; &#1085;&#1072; &#1074;&#1089;&#1077;&#1084;&#1080; &#1083;&#1102;&#1073;&#1080;&#1084;&#1086;&#1084; &#1089;&#1072;&#1081;&#1090;&#1077;.</description>
+        <summary lang="fr">Plugin pour YouTube</summary>
+        <description lang="fr">YouTube est l'un des plus grands sites de partage vid&#233;os du monde.</description>
+        <summary lang="zh">YouTube&#38468;&#21152;&#20803;&#20214;</summary>
+        <description lang="zh">&#12300;Youtube&#12301;&#26159;&#20840;&#19990;&#30028;&#26368;&#22823;&#30340;&#24433;&#29255;&#20998;&#20139;&#32178;&#31449;</description>
+        <summary lang="bg">&#1044;&#1086;&#1073;&#1072;&#1074;&#1082;&#1072; &#1079;&#1072; YouTube</summary>
+        <description lang="bg">YouTube &#1077; &#1077;&#1076;&#1080;&#1085; &#1086;&#1090; &#1085;&#1072;&#1081;-&#1075;&#1086;&#1083;&#1077;&#1084;&#1080;&#1090;&#1077; &#1091;&#1077;&#1073; &#1089;&#1072;&#1081;&#1090;&#1086;&#1074;&#1077; &#1079;&#1072; &#1089;&#1087;&#1086;&#1076;&#1077;&#1083;&#1103;&#1085;&#1077; &#1085;&#1072; &#1074;&#1080;&#1076;&#1077;&#1086; &#1074; &#1094;&#1077;&#1083;&#1080;&#1103; &#1089;&#1074;&#1103;&#1090;.</description>
+		<summary lang="el">&#928;&#961;&#972;&#963;&#952;&#949;&#964;&#959; YouTube</summary>
+        <description lang="el">&#932;&#959; YouTube &#949;&#943;&#957;&#945;&#953; &#956;&#943;&#945; &#945;&#960;&#972; &#964;&#953;&#962; &#956;&#949;&#947;&#945;&#955;&#973;&#964;&#949;&#961;&#949;&#962; &#953;&#963;&#964;&#959;&#963;&#949;&#955;&#943;&#948;&#949;&#962; &#948;&#953;&#945;&#956;&#959;&#953;&#961;&#945;&#963;&#956;&#959;&#973; &#946;&#943;&#957;&#964;&#949;&#959; &#963;&#964;&#959;&#957; &#954;&#972;&#963;&#956;&#959;.</description>
+        <summary lang="no">Tillegg for YouTube</summary>
+        <description lang="no">YouTube er en av verdens st&#248;rste nettsider for videodeling.</description>
+        <disclaimer lang="en"/>
+		<language/>
+		<platform>all</platform>
+		<license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
+		<forum>http://forum.kodi.tv/showthread.php?tid=267160</forum>
+		<website>http://www.youtube.com</website>
+		<email>ytplugin at datanet dot ws</email>
+		<source>https://github.com/Kolifanes/plugin.video.youtube</source>
+	</extension>
+</addon>
+  <addon id="plugin.video.nasa" name="Nasa" version="2.0.3" provider-name="Tristan Fischer (sphere@dersphere.de)">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0"/>
+    <import addon="script.module.xbmcswift2" version="2.4.0"/>
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="addon.py">
+    <provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <language/>
+    <platform>all</platform>
+    <website>http://www.nasa.gov/</website>
+    <source>https://github.com/dersphere/plugin.video.nasa</source>
+    <forum>http://forum.xbmc.org/showthread.php?tid=123001</forum>
+    <email>sphere@dersphere.de</email>
+    <license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
+    <summary lang="af">Video plugin om toegang na nasa.gov te bekom</summary>
+    <summary lang="ar">&#1605;&#1604;&#1581;&#1602; &#1610;&#1587;&#1575;&#1593;&#1583;&#1603; &#1604;&#1604;&#1608;&#1589;&#1608;&#1604; &#1575;&#1604;&#1609; &#1575;&#1604;&#1605;&#1602;&#1575;&#1591;&#1593; &#1575;&#1604;&#1605;&#1585;&#1574;&#1610;&#1607; &#1605;&#1606; &#1605;&#1608;&#1602;&#1593; &#1606;&#1575;&#1587;&#1575; nasa.gov</summary>
+    <summary lang="be">Video plugin to access content from nasa.gov</summary>
+    <summary lang="bg">&#1042;&#1080;&#1076;&#1077;&#1086; &#1076;&#1086;&#1073;&#1072;&#1074;&#1082;&#1072; &#1079;&#1072; &#1076;&#1086;&#1089;&#1090;&#1098;&#1087; &#1076;&#1086; &#1089;&#1098;&#1076;&#1098;&#1088;&#1078;&#1072;&#1085;&#1080;&#1077;&#1090;&#1086; &#1085;&#1072; nasa.gov</summary>
+    <summary lang="ca">Afegit&#243; de video per accedir al contingut de nasa.gov</summary>
+    <summary lang="cs">Video plugin pro p&#345;&#237;stup k obsahu nasa.gov</summary>
+    <summary lang="da">Videoplugin som viser indhold fra nasa.gov</summary>
+    <summary lang="de">Video Plug-In f&#252;r Inhalte von nasa.gov</summary>
+    <summary lang="el">Plugin &#946;&#943;&#957;&#964;&#949;&#959; &#947;&#953;&#945; &#960;&#961;&#972;&#963;&#946;&#945;&#963;&#951; &#963;&#949; &#960;&#949;&#961;&#953;&#949;&#967;&#972;&#956;&#949;&#957;&#959; &#945;&#960;&#972; &#964;&#959; nasa.gov</summary>
+    <summary lang="en">Video plugin to access content from nasa.gov</summary>
+    <summary lang="en_NZ">Video plugin to access content from nasa.gov</summary>
+    <summary lang="en_US">Video plugin to access content from nasa.gov</summary>
+    <summary lang="es">Complemento de video para acceder a contenido de nasa.gov</summary>
+    <summary lang="es_AR">Complemento de video para acceder a contenido de nasa.gov</summary>
+    <summary lang="et">Video plugin nasa.gov sisu n&#228;itamiseks</summary>
+    <summary lang="eu">Nasa.gov guneko edukiak ikusteko bideo gehigarria</summary>
+    <summary lang="fi">Videoliit&#228;nn&#228;inen nasa.gov-sis&#228;ll&#246;n k&#228;ytt&#246;&#228; varten</summary>
+    <summary lang="fr">Plugin Vid&#233;o pour acc&#233;der au contenu depuis nasa.gov</summary>
+    <summary lang="fr_CA">Plugiciel vid&#233;o pour acc&#233;der au contenu de nasa.gov</summary>
+    <summary lang="gl">Engadido de v&#237;deo para acceder ao contido de nasa.gov</summary>
+    <summary lang="he">&#1492;&#1512;&#1495;&#1489;&#1514; &#1493;&#1497;&#1491;&#1488;&#1493; &#1492;&#1502;&#1488;&#1508;&#1513;&#1512;&#1514; &#1500;&#1490;&#1513;&#1514; &#1500;&#1514;&#1493;&#1499;&#1503; &#1502;-Nasa.gov</summary>
+    <summary lang="hr">Video dodatak za pristup sadr&#382;aju na nasa.gov</summary>
+    <summary lang="hu">Vide&#243; plugin a nasa.gov tartalm&#225;nak el&#233;r&#233;s&#233;hez</summary>
+    <summary lang="id">Plugin video untuk mengakses konten dari nasa.gov</summary>
+    <summary lang="it">Plugin video per accedere ai contenuti di nasa.gov</summary>
+    <summary lang="ko">nasa.gov&#51032; &#53080;&#53584;&#52768;&#47484; &#51060;&#50857;&#54616;&#44592; &#50948;&#54620; &#48708;&#46356;&#50724; &#54540;&#47084;&#44536;&#51064;</summary>
+    <summary lang="lt">Vaizdo iskiepis/papildinys prieigai prie turinio i&#353; nasa.gov</summary>
+    <summary lang="lv">Video spraudnis piek&#316;&#363;t saturam no nasa.gov</summary>
+    <summary lang="nl">Video plugin om toegang tot nasa.gov content te krijgen.</summary>
+    <summary lang="pl">Wtyczka wideo umo&#380;liwiaj&#261;ca uzyskanie dost&#281;pu do zawarto&#347;ci strony nasa.gov</summary>
+    <summary lang="pt">Extens&#227;o de v&#237;deo para aceder aos conte&#250;dos de nasa.gov</summary>
+    <summary lang="pt_BR">Plugin de V&#237;deo para acessar conte&#250;do da nasa.gov</summary>
+    <summary lang="ru">&#1042;&#1080;&#1076;&#1077;&#1086;-&#1087;&#1083;&#1072;&#1075;&#1080;&#1085; &#1076;&#1083;&#1103; &#1076;&#1086;&#1089;&#1090;&#1091;&#1087;&#1072; &#1082; &#1089;&#1086;&#1076;&#1077;&#1088;&#1078;&#1080;&#1084;&#1086;&#1084;&#1091; nasa.gov</summary>
+    <summary lang="sk">Video doplnok na pr&#237;stup k obsahu nasa.gov</summary>
+    <summary lang="sv">Videotill&#228;gg f&#246;r &#229;tkomst till material fr&#229;n nasa.gov</summary>
+    <summary lang="zh">&#35775;&#38382;&#26469;&#33258;nasa.gov&#20869;&#23481;&#30340;&#35270;&#39057;&#25554;&#20214;</summary>
+    <description lang="af">Hierdie video plugin bied toegang tot meer as 1800 films, 8 vodcasts en 4 NASA-tv lewendige uitsaaiings [CR] Alle inhoud is dinamies en moet altyd op datum wees</description>
+    <description lang="ar">&#1607;&#1584;&#1575; &#1575;&#1604;&#1605;&#1604;&#1581;&#1602; &#1610;&#1608;&#1601;&#1585; &#1604;&#1603; &#1576;&#1604;&#1608;&#1594;&#1575;&#1611; &#1587;&#1607;&#1604;&#1575;&#1611; &#65271;&#1603;&#1579;&#1585; &#1605;&#1606; 1800 &#1605;&#1602;&#1591;&#1593; &#1605;&#1585;&#1574;&#1609; &#1608;4 &#1605;&#1581;&#1591;&#1575;&#1578; &#1576;&#1579; &#1578;&#1604;&#1601;&#1575;&#1586;&#1609; &#1605;&#1576;&#1575;&#1588;&#1585;[CR]&#1580;&#1605;&#1610;&#1593; &#1575;&#1604;&#1605;&#1581;&#1578;&#1608;&#1610;&#1575;&#1578; &#1607;&#1606;&#1575; &#1605;&#1615;&#1581;&#1583;&#1579;&#1607; &#1608;&#1605;&#1615;&#1580;&#1583;&#1583;&#1607; &#1604;&#1581;&#1592;&#1610;&#1575;&#1611;</description>
+    <description lang="be">This video plugin provides access to more than 1800 videos, 8 vodcasts and 4 nasa-tv livestreams[CR]All content is dynamic and should be always up to date.</description>
+    <description lang="bg">&#1042;&#1080;&#1076;&#1077;&#1086; &#1076;&#1086;&#1073;&#1072;&#1074;&#1082;&#1072;&#1090;&#1072; &#1087;&#1088;&#1077;&#1076;&#1086;&#1089;&#1090;&#1072;&#1074;&#1103; &#1076;&#1086;&#1089;&#1090;&#1098;&#1087; &#1076;&#1086; &#1087;&#1086;&#1074;&#1077;&#1095;&#1077; &#1086;&#1090; 1800 &#1074;&#1080;&#1076;&#1077;&#1072;, 8 &#1087;&#1086;&#1076;&#1082;&#1072;&#1089;&#1090;&#1080; &#1080; 4 &#1053;&#1040;&#1057;&#1040;-&#1058;&#1042; &#1086;&#1085;&#1083;&#1072;&#1081;&#1085; &#1087;&#1086;&#1090;&#1086;&#1094;&#1080;[CR]&#1062;&#1103;&#1083;&#1086;&#1090;&#1086; &#1089;&#1098;&#1076;&#1098;&#1088;&#1078;&#1072;&#1085;&#1080;&#1077; &#1077; &#1072;&#1082;&#1090;&#1091;&#1072;&#1083;&#1085;&#1086; &#1080; &#1076;&#1080;&#1085;&#1072;&#1084;&#1080;&#1095;&#1085;&#1086; &#1089;&#1077; &#1086;&#1073;&#1085;&#1086;&#1074;&#1103;&#1074;&#1072;.</description>
+    <description lang="ca">Aquest afegit&#243; de video permet accedir a m&#233;s de 1800 videos, 8 vodcasts i 4 fluxes de tv de la nasa[CR]Tot el contingut &#233;s din&#224;mic i sempre hauria d'estar actualitzat.</description>
+    <description lang="cs">Tento video dopln&#283;k poskytuje p&#345;&#237;stup k v&#237;ce ne&#382; 1800 vide&#237;m, 8 vodcast&#367;m a  4 nasa-tv  &#382;iv&#253;m p&#345;enos&#367;m [CR]Ve&#353;ker&#253; obsah je dynamick&#253; a m&#283;l by b&#253;t v&#382;dy aktu&#225;ln&#237;.</description>
+    <description lang="da">Dette videoplugin giver adgang til mere end 1800 videoer, 8 vodcasts og 4 nasa-tv livestreams[CR]Alt indhold er dynamisk og burde altid v&#230;re opdateret.</description>
+    <description lang="de">Dieses Video Plug-In bietet Zugang zu &#252;ber 1800 Videos, 8 Vodcasts und 4 nasa-TV Livestreams[CR]Der gesamte Inhalt ist dynamisch und sollte immer aktuell sein.</description>
+    <description lang="el">&#913;&#965;&#964;&#972; &#964;&#959; plugin &#946;&#943;&#957;&#964;&#949;&#959; &#960;&#945;&#961;&#941;&#967;&#949;&#953; &#960;&#961;&#972;&#963;&#946;&#945;&#963;&#951; &#963;&#949; &#960;&#949;&#961;&#953;&#963;&#963;&#972;&#964;&#949;&#961;&#945; &#945;&#960;&#972; 1800 &#946;&#943;&#957;&#964;&#949;&#959;, 8 vodcast &#954;&#945;&#953; 4 Live &#961;&#959;&#941;&#962;.[CR]&#908;&#955;&#959; &#964;&#959; &#960;&#949;&#961;&#953;&#949;&#967;&#972;&#956;&#949;&#957;&#959; &#949;&#943;&#957;&#945;&#953; &#948;&#965;&#957;&#945;&#956;&#953;&#954;&#972; &#954;&#945;&#953; &#949;&#943;&#957;&#945;&#953; &#948;&#953;&#945;&#961;&#954;&#974;&#962; &#949;&#957;&#951;&#956;&#949;&#961;&#969;&#956;&#941;&#957;&#959;.</description>
+    <description lang="en">This video plugin provides access to more than 1800 videos, 8 vodcasts and 4 nasa-tv livestreams[CR]All content is dynamic and should be always up to date.</description>
+    <description lang="en_NZ">This video plugin provides access to more than 1800 videos, 8 vodcasts and 4 nasa-tv livestreams[CR]All content is dynamic and should be always up to date.</description>
+    <description lang="en_US">This video plugin provides access to more than 1800 videos, 8 vodcasts and 4 nasa-tv livestreams[CR]All content is dynamic and should be always up to date.</description>
+    <description lang="es">Este complemento de video permite acceder a m&#225;s de 1800 v&#237;deos, 8 vodcasts y 4 canales en directo de la NASA[CR]Todo el contenido es din&#225;mico y deber&#237;a estar siempre actualizado.</description>
+    <description lang="es_AR">Este complemento de video permite acceder a m&#225;s de 1800 v&#237;deos, 8 vodcasts y 4 canales en directo de la NASA[CR]Todo el contenido es din&#225;mico y deber&#237;a estar siempre actualizado.</description>
+    <description lang="et">See video plugin annab ligip&#228;&#228;su enam kui 1800 videole, 8 vodcast ja 4 nasa-tv otse&#252;lekandele[CR]Kogu sisu on muutuv ja peaks olema alati v&#228;rske.</description>
+    <description lang="eu">Bideo gehigarri honek 1800 bideotik gora , 8 podcast eta 4 nasta-tv jario [CR] ikusteko aukera ematen du. Eduki guztia dinamikoa da eta beti eguneratua egon beharko litzateke.</description>
+    <description lang="fr">Ce plugin vid&#233;o permet l'acc&#232;s &#224; plus de 1800 vid&#233;os, 8 podcasts vid&#233;os, et 4 services de streaming vid&#233;o live nasa[CR]Tout le contenu est dynamique et mis &#224; jour.</description>
+    <description lang="fr_CA">Ce plugiciel vid&#233;o fournit l'acc&#232;s &#224; plus de 1 800 vid&#233;os, 8 balados vid&#233;o et 4 diffusion en direct.[CR]Tout le contenu est dynamique et devrait &#234;tre &#224; jour en tout temps.</description>
+    <description lang="gl">Este engadido de v&#237;deo fornece de acceso a m&#225;is de 1800 v&#237;deos, 8 vodcasts e 4 fluxos ao vivo de nasa-tv[CR]Todo o contido e din&#225;mico e ten de estar sempre actualizado.</description>
+    <description lang="he">&#1492;&#1512;&#1495;&#1489;&#1514; &#1493;&#1497;&#1491;&#1488;&#1493; &#1494;&#1493; &#1502;&#1505;&#1508;&#1511;&#1514; &#1490;&#1497;&#1513;&#1492; &#1500;&#1497;&#1493;&#1514;&#1512; &#1502;-1800 &#1505;&#1512;&#1496;&#1493;&#1504;&#1497;&#1501;, 8 &#1508;&#1493;&#1491;&#1511;&#1488;&#1505;&#1496;&#1497; &#1493;&#1497;&#1491;&#1488;&#1493; &#1493;-4 &#1492;&#1494;&#1512;&#1502;&#1493;&#1514; nasa-tv &#1495;&#1497;&#1493;&#1514;[CR]&#1499;&#1500; &#1492;&#1514;&#1493;&#1499;&#1503; &#1492;&#1497;&#1504;&#1493; &#1491;&#1497;&#1504;&#1502;&#1497; &#1493;&#1514;&#1502;&#1497;&#1491; &#1497;&#1492;&#1497;&#1492; &#1506;&#1491;&#1499;&#1504;&#1497;.</description>
+    <description lang="hr">Ovaj video dodatak pru&#382;a pristup na vi&#353;e od 1800 video snimaka, 8 web video zapisa i 4 nasa-tv streamova u&#382;ivo[CR]Sav sadr&#382;aj je promjenjiv i uvijek mora biti a&#382;uriran.</description>
+    <description lang="hu">Ez a plugin hozz&#225;f&#233;r&#233;st enged t&#246;bb mint 1800 vide&#243;hoz, 8 vodcast-hoz &#233;s 4 nasa-tv m&#369;sorfolzamhoz.[CR]A teljes tartalom dinamikus &#233;s naprak&#233;sz.</description>
+    <description lang="it">Questo plugin video permette l'accesso a pi&#249; di 1800 video, 8 vodcasts e 4 flussi dal vivo di nasa tv[CR]. Tutto il contenuto &#232; dinamico e dovrebbe essere aggiornato sempre.</description>
+    <description lang="ko">1800&#44060; &#51060;&#49345;&#51032; &#46041;&#50689;&#49345;, 8&#44060;&#51032; VOD &#52880;&#49828;&#53944;, 4&#44060;&#51032; nasa-tv &#49373;&#48169;&#49569;&#51012; &#51060;&#50857;&#54624; &#49688; &#51080;&#49845;&#45768;&#45796;.[CR]All content is dynamic and should be always up to date.</description>
+    <description lang="lt">&#352;is vaizdo iskiepis/papildinys suteikia prieig&#261; prie daugiau nei 1800 video, 8 vaizdo fail&#371; ir 4 NASA TV (Live srautas(-ai))[CR]Visas turinys yra dinami&#353;kas ir visada yra atnaujinamas.</description>
+    <description lang="lv">&#352;is video spraudnis nodro&#353;ina piek&#316;uvi vair&#257;k nek&#257; 1800 video, 8 vodcastiem un 4 nasa-tv tie&#353;raid&#275;m [CR] Viss saturs ir dinamisks un vienm&#275;r b&#363;s aktu&#257;ls.</description>
+    <description lang="nl">Deze video plugin geeft toegang tot meer dan 1800 videos, 8 vodcasts en 4 nasa-tv livestreams[CR]Alle content is dynamisch en zal altijd up to date zijn.</description>
+    <description lang="pl">Wtyczka wideo zapewnia dost&#281;p do ponad 1800 film&#243;w, 8  vodcasts&#243;w oraz 4 kana&#322;&#243;w Nasa-TV[CR]Ca&#322;a zawarto&#347;&#263; jest dynamiczna i powinna by&#263; zawsze aktualna.</description>
+    <description lang="pt">Esta extens&#227;o de v&#237;deo permite-lhe aceder a mais de 1800 v&#237;deos, 8 vodcasts e 4 transmiss&#245;es em directo da nasa-tv.[CR]Todo este conte&#250;do &#233; din&#226;mico e estar&#225; sempre actualizado.</description>
+    <description lang="pt_BR">Este plugin de v&#237;deo prov&#234; acesso para mais de 1800 v&#237;deos, 8 vodcasts e 4 transmiss&#245;es ao vivo da TV Nasa[CR]Todos os conte&#250;dos s&#227;o din&#226;micos e e deve estar sempre atualizado.</description>
+    <description lang="ru">&#1042;&#1080;&#1076;&#1077;&#1086;-&#1087;&#1083;&#1072;&#1075;&#1080;&#1085; &#1087;&#1088;&#1077;&#1076;&#1086;&#1089;&#1090;&#1072;&#1074;&#1083;&#1103;&#1077;&#1090; &#1076;&#1086;&#1089;&#1090;&#1091;&#1087; &#1082; &#1073;&#1086;&#1083;&#1077;&#1077; &#1095;&#1077;&#1084; 1800 &#1074;&#1080;&#1076;&#1077;&#1086;, 8 &#1087;&#1086;&#1076;&#1082;&#1072;&#1089;&#1090;&#1072;&#1084; &#1080; 4 &#1053;&#1040;&#1057;&#1040;-&#1058;&#1042; &#1086;&#1085;&#1083;&#1072;&#1081;&#1085;-&#1087;&#1086;&#1090;&#1086;&#1082;&#1072;&#1084;[CR]&#1042;&#1089;&#1077; &#1089;&#1086;&#1076;&#1077;&#1088;&#1078;&#1080;&#1084;&#1086;&#1077; &#1072;&#1082;&#1090;&#1091;&#1072;&#1083;&#1100;&#1085;&#1086; &#1080; &#1076;&#1080;&#1085;&#1072;&#1084;&#1080;&#1095;&#1077;&#1089;&#1082;&#1080; &#1086;&#1073;&#1085;&#1086;&#1074;&#1083;&#1103;&#1077;&#1090;&#1089;&#1103;.</description>
+    <description lang="sk">Tento video doplnok poskytuje pr&#237;stup k viac ne&#382; 1800 vide&#225;m, 8 Vodcast-om a 4 nasa-tv &#382;iv&#253;m vysielaniam.
+V&#353;etok obsah je dynamick&#253; a mal by by&#357; v&#382;dy aktu&#225;lny.</description>
+    <description lang="sv">Detta till&#228;gg ger access till mer &#228;n 1800 videor, 8 vodcasts och 4 direkts&#228;nda nasa-tv-kanaler[CR]Allt inneh&#229;ll &#228;r dynamiskt och borde alltid vara uppdaterat.</description>
+    <description lang="zh">&#27492;&#35270;&#39057;&#25554;&#20214;&#25552;&#20379;&#35775;&#38382;1800&#22810;&#20010;&#35270;&#39057;, 8&#20010;&#25773;&#23458;&#20197;&#21450;4&#20010;&#32654;&#22269;&#22269;&#23478;&#33322;&#31354;&#21644;&#33322;&#22825;&#31649;&#29702;&#23616;&#30005;&#35270;&#30452;&#25773;&#27969;[CR]&#20840;&#37096;&#20869;&#23481;&#37117;&#21160;&#24577;&#30340;&#24182;&#20445;&#25345;&#26368;&#26032;&#12290;</description>
+  </extension>
+</addon>
+  <addon id="plugin.video.twit_api" name="TWiT API" version="0.0.4" provider-name="divingmule">
+  <requires>
+    <import addon="xbmc.python" version="2.14.0"/>
+    <import addon="script.module.beautifulsoup4" version="4.3.2"/>
+    <import addon="script.common.plugin.cache" version="2.5.6"/>
+    <import addon="script.ircchat" version="1.0.0" optional="true"/>
+    <import addon="script.module.simple.downloader" version="1.9.5"/>
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="default.py">
+    <provides>audio video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary>The TWiT.tv Netcast Network</summary>
+    <description>
+      https://twit.tv/about/what-is-twit-tv
+      [CR]The TWiT.tv Netcast Network with Leo Laporte features the #1 ranked technology podcast This Week in Tech, along with over 20 other top-ranked online shows.
+    </description>
+    <platform>all</platform>
+    <language>en</language>
+    <license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
+    <source>https://github.com/divingmule/plugin.video.twit/tree/api</source>
+    <forum>http://forum.kodi.tv/showthread.php?tid=183336</forum>
+    <website>https://twit.tv/</website>
+  </extension>
+</addon>
+  <addon id="plugin.video.southpark_unofficial" name="South Park" version="0.4.5" provider-name="Deroad">
+    <requires>
+        <import addon="xbmc.python" version="2.1.0"/>
+    </requires>
+    <extension point="xbmc.python.pluginsource" library="default.py">
+        <provides>video</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <platform>all</platform>
+        <summary lang="en">South Park Unofficial Player</summary>
+        <language>en</language>
+        <description lang="en">Watch South Park episodes. The supported countries are the one that can view videos from http://southpark.cc.com or http://www.southpark.de.</description>
+        <disclaimer lang="en">Some parts of this addon may not be legal in your country of residence - please check with your local laws before installing.</disclaimer>
+        <license>GNU General Public Licence. v2</license>
+        <source>https://github.com/wargio/plugin.video.southpark_unofficial</source>
+        <forum>http://forum.kodi.tv/showthread.php?tid=224662</forum>
+        <email>wargio at libero dot it</email>
+        <website>http://devram0.blogspot.it/</website>
+    </extension>
+</addon>
+  <addon id="script.module.libtorrent" version="1.1.1g" name="python-libtorrent" provider-name="DiMartino, srg70, RussakHH, aisman, inpos">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0"/>
+  </requires>
+  <extension point="xbmc.python.script" library="default.py">
+    <provides>executable</provides>
+  </extension>
+  <extension point="xbmc.python.module" library="python_libtorrent"/>
+  <extension point="xbmc.addon.metadata">
+    <platform>all</platform>
+    <summary lang="en">script.module.libtorrent is a Kodi module that makes easy import of python-libtorrent for you.</summary>
+    <summary lang="ru">script.module.libtorrent - &#1084;&#1086;&#1076;&#1091;&#1083;&#1100; Kodi, &#1082;&#1086;&#1090;&#1086;&#1088;&#1099;&#1081; &#1091;&#1087;&#1088;&#1086;&#1097;&#1072;&#1077;&#1090; &#1080;&#1084;&#1087;&#1086;&#1088;&#1090; &#1073;&#1080;&#1073;&#1083;&#1080;&#1086;&#1090;&#1077;&#1082;&#1080; python-libtorrent.</summary>
+    <summary lang="es">script.module.libtorrent es un m&#243;dulo de Kodi que facilita la importaci&#243;n de la librer&#237;a python-libtorrent.</summary>
+    <license>MIT License</license>
+    <source>https://github.com/DiMartinoXBMC/script.module.libtorrent</source>
+  </extension>
+  <extension point="xbmc.python.module"/>
+</addon>
+  <addon id="plugin.video.liveleak" name="LiveLeak" version="0.0.3" provider-name="oneadvent">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0"/>
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="default.py">
+        <provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en">Watch LiveLeak.com Videos</summary>
+    <language>en</language>
+    <description lang="en">Redefining The Media</description>
+     <platform>all</platform>
+  </extension>
+</addon>
+  <addon id="plugin.video.wwdc" name="WWDC" version="1.0.0" provider-name="Johannes Plunien">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0"/>
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="default.py">
+   <provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <platform>all</platform>
+    <summary lang="en">Addon to watch WWDC sessions.</summary>
+    <language>en</language>
+    <description lang="en">Addon to watch WWDC sessions.</description>
+    <license>MIT</license>
+    <source>https://github.com/plu/plugin.video.wwdc</source>
+    <forum>none</forum>
+    <email>plu@pqpq.de</email>
+    <website>https://github.com/plu/plugin.video.wwdc</website>
+  </extension>
+</addon>
+  <addon id="plugin.video.geekandsundry" name="Geek &amp; Sundry" version="0.1.7" provider-name="Rick Phillips (ruuk)">
+	<requires>
+		<import addon="xbmc.python" version="2.1.0"/>
+		<import addon="script.module.xbmcswift2" version="1.1.1"/>
+        <import addon="script.module.requests" version="2.3.0"/>
+		<import addon="plugin.video.youtube" version="4.4.6"/>
+		<import addon="script.module.beautifulsoup4" version="4.3.1"/>
+	</requires>
+	<extension point="xbmc.python.pluginsource" library="geekandsundry.py">
+		<provides>video</provides>
+	</extension>
+	<extension point="xbmc.addon.metadata">
+		<summary lang="en">geekandsundry.com videos</summary>
+		<description>Geek &amp; Sundry videos such as TableTop, The Guild and Space Janitors</description>
+		<platform>all</platform>
+		<language/>
+		<license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
+		<forum>http://forum.xbmc.org/showthread.php?tid=180283</forum>
+		<source>http://github.com/ruuk/plugin.video.geekandsundry</source>
+	</extension>
+</addon>
+  <addon id="superrepo.kodi.jarvis.repositories" name="SuperRepo  Repositories [Jarvis][v7]" version="0.7.04" provider-name="Bart Otten">
+                <requires>
+                <import addon="xbmc.addon" version="12.0.0"/>
+                </requires>
+                <extension point="xbmc.addon.repository" name="SuperRepo  Repositories [Jarvis][v7]">
+                <info compressed="false">
+                http://xml.superrepo.org/v7/.xml/jarvis/repositories/superrepo/addons.xml
+                </info>
+                <checksum>
+                http://md5.superrepo.org/v7/.md5/jarvis/repositories/superrepo/addons.xml.md5
+                </checksum>
+                <datadir zip="true">http://redirect.superrepo.org/v7/addons/</datadir>
+                <hashes>true</hashes>
+                </extension>
+                <extension point="xbmc.addon.metadata">
+                <summary>
+                Install add-ons from the SuperRepo  Repositories Repository
+                </summary>
+                <summary lang="nl">
+                Installeer add-ons uit de SuperRepo  Repositories Repository
+                </summary>
+                <summary lang="cz">In&#353;tal&#225;cia add-ons zo SuperRepo  Repositories Repozit&#225;r</summary>
+                <summary lang="de">
+                Installation von Addons aus dem SuperRepo  Repositories Repository
+                </summary>
+                <summary lang="pt">Instale add-ons do SuperRepo  Repositories Reposit&#243;rio</summary>
+                <summary lang="br">Instale add-ons do SuperRepo  Repositories Reposit&#243;rio</summary>
+                <description>
+                Download and install add-ons for Kodi in the category "SuperRepo" using SuperRepo.[CR][CR]By using SuperRepo repositories you will be able to take advantage of our serverside dependency checking, extensive file mirror service and many more.[CR]Visit our website at https://superrepo.org/ to browse the add-ons, create personal addon bundles and install whole bundles at once![CR][CR]
+                </description>
+                <description lang="nl">
+                Download and installeer add-ons voor Kodi in de categorie "SuperRepo" via SuperRepo.[CR]Door SuperRepo te installeren kunt u profiteren van onze controle van add-ons en ons uitgebreide server netwerk. Bezoek onze website op https://superrepo.org om door de add-ons te bladeren, persoonlijke add-on bundels te maken en complete bundels in 1 keer te installeren![CR][CR]
+                </description>
+                <description lang="cz">
+                Preber a in&#353;taluj add-ons do kateg&#243;rie "SuperRepo" z SuperRepo.org add-on repozit&#225;r.[CR][CR]Ak si na&#353;iel add-on ktor&#253; je po&#353;koden&#253; alebo nefunk&#269;n&#253;, alebo chce&#353; prida&#357; nov&#253; add-on, potom pros&#237;m pozri na https://superrepo.org/[CR][CR]Repozit&#225;r je udr&#382;iavan&#253; komunitou Kodi a za pomoci SuperRepo Wiki, a tento preber&#225; add-ons z r&#244;znych zdrojov. Vzh&#318;adom na to, SuperRepo nenesie &#382;iadnu zodpovednos&#357; za slu&#382;by poskytovan&#233; t&#253;mito add-ons.[CR][CR]Roz&#353;&#237;ren&#253; repozit&#225;r vyvinul Bart Otten[CR][CR]
+                </description>
+                <description lang="de">
+                Lade und installiere Addons der Kategorie "SuperRepo" aus dem SuperRepo.org Addon Repository.[CR][CR]M&#246;chtest du ein fehlerhaftes Addon melden oder ein neues Addon vorschlagen, kannst du dies &#252;ber unsere Webseite http://superrepo.org tun.[CR][CR]Das Repository wird mit Hilfe des SuperRepo Wiki durch die Kodi Community gepflegt und durch unseren Generator aus mehreren Quellen zusammengestellt. Daher &#252;bernimmt SuperRepo keinerlei Verantwortung f&#252;r diesen Service.[CR][CR]Der"eXtended Reposity Generator" wird durch Bart Otten entwickelt.[CR][CR]
+                </description>
+                <description lang="pt">
+                Baixe e instale o add-ons na categoria "SuperRepo" do Reposit&#243;rio SuperRepo.org. [CR] [CR] Se voc&#234; encontrar um add-on quebrado ou n&#227;o funcionando, ou voc&#234; gostaria de incluir um outro, por favor visite https://superrepo.org/ [CR] [CR]O reposit&#243;rio &#233; mantida pela comunidade do Kodi usando o Wiki do SuperRepo e o nosso gerador de busca de add-ons m&#250;ltiplas fontes. Portanto SuperRepo n&#227;o aceita qualquer responsabilidade por esse servi&#231;o.[CR][CR]O Gerador Reposity eXtended &#233; desenvolvido por Bart Otten[CR][CR]
+                </description>
+                <description lang="br">
+                Baixe e instale o add-ons na categoria "SuperRepo" do Reposit&#243;rio SuperRepo.org. [CR] [CR] Se voc&#234; encontrar um add-on quebrado ou n&#227;o funcionando, ou voc&#234; gostaria de incluir um outro, por favor visite https://superrepo.org/ [CR][CR]O reposit&#243;rio &#233; mantida pela comunidade do Kodi usando o Wiki do SuperRepo e o nosso gerador de busca de add-ons m&#250;ltiplas fontes. Portanto SuperRepo n&#227;o aceita qualquer responsabilidade por esse servi&#231;o.[CR][CR]O Gerador Reposity eXtended &#233; desenvolvido por Bart Otten[CR][CR]
+                </description>
+                <disclaimer>
+                The SuperRepo generator fetches addons from multiple sources. Therefore SuperRepo accepts no responsibility for included addons.[CR]
+                </disclaimer>
+                <disclaimer lang="nl">
+                De SuperRepo generator verzamelt addons van verschillende bronnen. Daarom accepteert SuperRepo geen enkele verantwoordelijkheid voor de ingevoegde addons.[CR]
+                </disclaimer>
+                <disclaimer lang="cz">
+                Repozit&#225;r je udr&#382;iavan&#253; komunitou Kodi a za pomoci SuperRepo Wiki, a tento preber&#225; addons z r&#244;znych zdrojov. Vzh&#318;adom na to, SuperRepo nenesie &#382;iadnu zodpovednos&#357; za slu&#382;by poskytovan&#233; t&#253;mito addons.[CR]
+                </disclaimer>
+                <disclaimer lang="de">
+                Das Repository wird durch die Kodi Community gepflegt und durch unseren Generator aus mehreren Quellen zusammengestellt. Daher &#252;bernimmt SuperRepo keinerlei Verantwortung f&#252;r die enthaltenen Addons.[CR]
+                </disclaimer>
+                <disclaimer lang="pt">
+                O reposit&#243;rio &#233; mantido pela comunidade comunidade do Kodi e o nosso gerador de busca de addons de m&#250;ltiplas fontes. Portanto SuperRepo aceita n&#227;o se responsabiliza por addons inclu&#237;dos.[CR]
+                </disclaimer>
+                <disclaimer lang="br">
+                O reposit&#243;rio &#233; mantido pela comunidade comunidade do Kodi e o nosso gerador de busca de addons de m&#250;ltiplas fontes. Portanto SuperRepo aceita n&#227;o se responsabiliza por addons inclu&#237;dos.[CR]
+                </disclaimer>
+                <platform>all</platform>
+                <website>https://superrepo.org/</website>
+                </extension>
+                </addon>
+  <addon id="script.module.xbmcswift2" name="xbmcswift2" provider-name="Jonathan Beluch (jbel)" version="2.4.0">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0"/>
+  </requires>
+  <extension library="lib" point="xbmc.python.module"/>
+  <extension point="xbmc.addon.metadata">
+    <language/>
+    <platform>all</platform>
+  </extension>
+</addon>
+</addons>
